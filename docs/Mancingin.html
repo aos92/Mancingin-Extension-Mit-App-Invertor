@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MancinginExtension &mdash; Dokumentasi Extension MIT App Inventor</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --deep:#0b3d4c;
+    --teal:#0f7a8c;
+    --aqua:#1fb6b0;
+    --lure:#ff7a3d;
+    --sand:#f6f3ea;
+    --ink:#123138;
+    --line:#dfe6e2;
+  }
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Inter',system-ui,sans-serif;
+    color:var(--ink);
+    background:var(--sand);
+  }
+  h1,h2,h3,h4,.brand,.navpill{font-family:'Sora',sans-serif;}
+  code, .mono{font-family:'JetBrains Mono',monospace;}
+
+  /* ---------- Topbar ---------- */
+  .topbar{
+    background:linear-gradient(100deg,var(--deep) 0%,#0e5566 60%,var(--teal) 100%);
+    color:#eaf6f5;
+    border-bottom:3px solid var(--lure);
+  }
+  .topbar .brand{font-weight:800;font-size:1.15rem;letter-spacing:.2px;}
+  .topbar .subtitle{font-size:.78rem;color:#bfe3df;letter-spacing:.5px;text-transform:uppercase;}
+  .badge-version{
+    background:rgba(255,122,61,.16);
+    border:1px solid var(--lure);
+    color:#ffd9c4;
+    font-family:'JetBrains Mono',monospace;
+    font-size:.72rem;
+  }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    background:
+      radial-gradient(60% 100% at 85% 0%, rgba(31,182,176,.35), transparent 60%),
+      linear-gradient(180deg,var(--deep), #0d4e5f 100%);
+    color:#eaf6f5;
+    position:relative;
+    overflow:hidden;
+    border-bottom:1px solid rgba(255,255,255,.08);
+  }
+  .hero .ripple{
+    position:absolute; inset:0; opacity:.15; pointer-events:none;
+    background-image:
+      repeating-radial-gradient(circle at 90% 20%, transparent 0, transparent 18px, rgba(255,255,255,.5) 19px, transparent 20px);
+  }
+  .hero .eyebrow{
+    color:var(--lure); font-weight:600; letter-spacing:1.5px; font-size:.75rem; text-transform:uppercase;
+  }
+  .hero h1{font-weight:800; font-size:2.4rem;}
+  .hero p.lead{color:#cfe8e5; font-size:1.02rem; max-width:640px;}
+  .stat-chip{
+    background:rgba(255,255,255,.06);
+    border:1px solid rgba(255,255,255,.14);
+    border-radius:10px;
+    padding:.65rem .9rem;
+  }
+  .stat-chip .num{font-family:'JetBrains Mono',monospace; font-weight:700; font-size:1.35rem; color:#ffd9c4;}
+  .stat-chip .lbl{font-size:.72rem; color:#bfe3df; text-transform:uppercase; letter-spacing:.5px;}
+
+  /* ---------- Sidebar ---------- */
+  .sidebar{
+    position:sticky; top:76px;
+    max-height:calc(100vh - 96px);
+    overflow-y:auto;
+    padding-right:.5rem;
+  }
+  .sidebar::-webkit-scrollbar{width:6px;}
+  .sidebar::-webkit-scrollbar-thumb{background:#c7d6d2;border-radius:6px;}
+  .toc-title{font-size:.72rem; text-transform:uppercase; letter-spacing:1px; color:#5c7a76; font-weight:700; margin:1.1rem 0 .4rem;}
+  .toc-title:first-child{margin-top:0;}
+  .nav-pills .nav-link{
+    color:var(--ink); font-size:.88rem; padding:.3rem .6rem; border-radius:7px;
+    border-left:2px solid transparent;
+  }
+  .nav-pills .nav-link.method-item{color:#4a615d; font-size:.82rem;}
+  .nav-pills .nav-link:hover{background:#e7f1ef;}
+  .nav-pills .nav-link.active{
+    background:rgba(31,182,176,.12); color:var(--deep); font-weight:600; border-left:2px solid var(--aqua);
+  }
+
+  /* ---------- Section styling ---------- */
+  section.doc-section{scroll-margin-top:80px; margin-bottom:3rem;}
+  .section-head{
+    display:flex; align-items:center; gap:.6rem; margin-bottom:1rem;
+    padding-bottom:.6rem; border-bottom:2px solid var(--line);
+  }
+  .section-head .icon-badge{
+    width:36px; height:36px; border-radius:9px; display:flex; align-items:center; justify-content:center;
+    background:var(--deep); color:#bfe3df; font-size:.95rem; flex-shrink:0;
+  }
+  .section-head.ev .icon-badge{background:var(--lure); color:#3a1300;}
+  .section-head.mt .icon-badge{background:var(--aqua); color:#053331;}
+  .section-head h2{margin:0; font-size:1.4rem; font-weight:700; color:var(--deep);}
+  .section-head .count{font-size:.78rem; color:#6d8985; font-weight:500;}
+
+  .card-member{
+    background:#fff; border:1px solid var(--line); border-radius:12px;
+    padding:1.1rem 1.25rem; margin-bottom:.9rem; scroll-margin-top:80px;
+    transition:box-shadow .15s ease, border-color .15s ease;
+  }
+  .card-member:hover{box-shadow:0 4px 18px rgba(11,61,76,.08); border-color:#c3e0dc;}
+  .card-member .sig{
+    font-family:'JetBrains Mono',monospace; font-size:.92rem; color:var(--deep); font-weight:600;
+    word-break:break-word;
+  }
+  .card-member .sig .fn{color:var(--teal); font-weight:700;}
+  .card-member .sig .paren{color:#93a8a5;}
+  .card-member p.desc{margin:.55rem 0 0; font-size:.9rem; color:#37504d; line-height:1.55;}
+  .pill-type{
+    font-family:'JetBrains Mono',monospace; font-size:.68rem; padding:.15rem .5rem; border-radius:20px;
+    border:1px solid; margin-left:.15rem; white-space:nowrap;
+  }
+  .pill-text{color:#0f7a8c; border-color:#bfe3df; background:#eafaf8;}
+  .pill-number{color:#946200; border-color:#f0dcac; background:#fff8e8;}
+  .pill-boolean{color:#8a3ba8; border-color:#e6c9f0; background:#faf1fd;}
+  .pill-list{color:#c14e2f; border-color:#f3c6b4; background:#fff2ec;}
+  .badge-return{
+    font-size:.68rem; font-weight:600; padding:.2rem .55rem; border-radius:6px;
+    background:var(--deep); color:#dff3f1; margin-left:.4rem;
+  }
+  .param-table{font-size:.83rem; margin-top:.65rem;}
+  .param-table th{font-size:.7rem; text-transform:uppercase; letter-spacing:.4px; color:#6d8985; font-weight:600; border-bottom:1px solid var(--line);}
+  .param-table td{border-bottom:1px dashed #e7ede9; padding-top:.4rem; padding-bottom:.4rem;}
+
+  .intro-card{
+    background:#fff; border:1px solid var(--line); border-radius:14px; padding:1.5rem;
+  }
+  .intro-card ol{margin-bottom:0;}
+  .intro-card li{margin-bottom:.55rem; font-size:.93rem; line-height:1.6;}
+
+  footer{
+    background:var(--deep); color:#a9cfca; font-size:.85rem;
+  }
+  .btn-lure{background:var(--lure); border-color:var(--lure); color:#fff;}
+  .btn-lure:hover{background:#e5652a; border-color:#e5652a; color:#fff;}
+  .back-index{color:#bfe3df; font-size:.85rem; text-decoration:none;}
+  .back-index:hover{color:#fff;}
+
+  /* ---------- Page switcher nav ---------- */
+  .pagenav{ background:#0e4a5c; border-bottom:1px solid rgba(255,255,255,.08); }
+  .pagenav-inner{ display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:.5rem; padding:.55rem 0; }
+  .pagenav-links{ display:flex; flex-wrap:wrap; gap:.4rem; }
+  .pagenav-link{
+    display:inline-flex; align-items:center; gap:.35rem; color:#bfe3df; font-size:.82rem; font-weight:600;
+    padding:.35rem .8rem; border-radius:20px; text-decoration:none; border:1px solid transparent;
+    transition:background .15s ease, color .15s ease, border-color .15s ease;
+  }
+  .pagenav-link:hover{ background:rgba(255,255,255,.1); color:#fff; }
+  .pagenav-link.active{ background:var(--lure); color:#fff; border-color:var(--lure); }
+  .pagenav-github{ background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.18); }
+  .pagenav-github:hover{ background:rgba(255,255,255,.16); color:#fff; }
+
+  /* ---------- Brand assets: logo & digital font ---------- */
+  @font-face{
+    font-family:'Seven Segment';
+    src:url('assets/SevenSegment.ttf') format('truetype');
+    font-weight:normal; font-style:normal; font-display:swap;
+  }
+  .brand-logo{ height:34px; width:auto; display:block; flex-shrink:0; }
+  .font-digital{ font-family:'Seven Segment','JetBrains Mono',monospace; letter-spacing:.5px; }
+
+  #backToTop{
+    position:fixed; bottom:24px; right:24px; z-index:999; display:none;
+    width:44px; height:44px; border-radius:50%; background:var(--teal); color:#fff; border:none;
+    box-shadow:0 6px 16px rgba(11,61,76,.35);
+  }
+</style>
+  <link rel="icon" type="image/png" href="assets/logo.png">
+</head>
+<body data-bs-spy="scroll" data-bs-target="#tocNav" data-bs-offset="100" tabindex="0">
+
+<!-- Topbar -->
+<nav class="navbar topbar sticky-top py-2">
+  <div class="container-fluid px-4">
+    <div class="d-flex align-items-center gap-2">
+      <img src="assets/logo.png" alt="Mancingin Extension Suite logo" class="brand-logo">
+      <div>
+        <div class="brand">MancinginExtension</div>
+        <div class="subtitle">Non-visible extension &middot; MIT App Inventor</div>
+      </div>
+    </div>
+    <div class="d-flex align-items-center gap-2">
+      <span class="badge badge-version rounded-pill px-3 py-2"><i class="fa-solid fa-database me-1"></i> mancing.db</span>
+    </div>
+  </div>
+</nav>
+
+<!-- Page Switcher -->
+<div class="pagenav">
+  <div class="container-fluid px-4 pagenav-inner">
+        <div class="pagenav-links">
+          <a href="https://aos92.github.io/Mancingin-Extension-Mit-App-Invertor/" class="pagenav-link"><i class="fa-solid fa-house me-1"></i>Beranda</a>
+          <a href="https://aos92.github.io/Mancingin-Extension-Mit-App-Invertor/Mancingin.html" class="pagenav-link active"><i class="fa-solid fa-fish-fins me-1"></i>Mancingin</a>
+          <a href="https://aos92.github.io/Mancingin-Extension-Mit-App-Invertor/LapakCanvas.html" class="pagenav-link"><i class="fa-solid fa-vector-square me-1"></i>LapakCanvas</a>
+          <a href="https://aos92.github.io/Mancingin-Extension-Mit-App-Invertor/MenuGalatama.html" class="pagenav-link"><i class="fa-solid fa-bowl-food me-1"></i>MenuGalatama</a>
+          <a href="https://aos92.github.io/Mancingin-Extension-Mit-App-Invertor/TableGalatama.html" class="pagenav-link"><i class="fa-solid fa-table me-1"></i>TableGalatama</a>
+    </div>
+    <a href="https://github.com/aos92/Mancingin-Extension-Mit-App-Invertor" target="_blank" rel="noopener" class="pagenav-link pagenav-github"><i class="fa-brands fa-github me-1"></i>Repo GitHub</a>
+  </div>
+</div>
+
+<!-- Hero -->
+<header class="hero py-5">
+  <div class="ripple"></div>
+  <div class="container position-relative">
+    <div class="row align-items-center">
+      <div class="col-lg-8">
+        <div class="eyebrow mb-2">Dokumentasi Komponen &middot; extension.md</div>
+        <h1>MancinginExtension</h1>
+        <p class="lead mt-2">
+          Ekstensi database SQLite untuk MIT App Inventor yang dirancang khusus untuk aplikasi
+          manajemen lomba mancing (galatama) &mdash; lengkap dengan kemampuan generik SQLite
+          dan blok-blok fungsional tingkat tinggi khusus domain lomba mancing.
+        </p>
+        <div class="d-flex gap-2 mt-3">
+          <a href="#overview" class="btn btn-lure btn-sm px-3"><i class="fa-solid fa-book-open me-1"></i> Mulai Baca</a>
+          <a href="#methods" class="btn btn-outline-light btn-sm px-3">Lihat Semua Method</a>
+        </div>
+      </div>
+      <div class="col-lg-4 mt-4 mt-lg-0">
+        <div class="row g-2">
+          <div class="col-4"><div class="stat-chip text-center"><div class="num font-digital">3</div><div class="lbl">Properties</div></div></div>
+          <div class="col-4"><div class="stat-chip text-center"><div class="num font-digital">15</div><div class="lbl">Events</div></div></div>
+          <div class="col-4"><div class="stat-chip text-center"><div class="num font-digital">35</div><div class="lbl">Methods</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="container-fluid px-4 mt-4">
+  <div class="row">
+
+    <!-- Sidebar TOC -->
+    <div class="col-lg-3 d-none d-lg-block">
+      <div class="sidebar">
+        <div class="nav flex-column nav-pills" id="tocNav">
+          <div class="toc-title">Pengantar</div>
+          <a class="nav-link" href="#overview">Ringkasan</a>
+
+          <div class="toc-title">Properties</div>
+          <a class="nav-link" href="#DatabaseName">DatabaseName</a>
+          <a class="nav-link" href="#DebugToast">DebugToast</a>
+          <a class="nav-link" href="#Version">Version</a>
+
+          <div class="toc-title">Events</div>
+          <a class="nav-link method-item" href="#AfterDelete">AfterDelete</a>
+          <a class="nav-link method-item" href="#AfterExecute">AfterExecute</a>
+          <a class="nav-link method-item" href="#AfterExecuteFile">AfterExecuteFile</a>
+          <a class="nav-link method-item" href="#AfterInsert">AfterInsert</a>
+          <a class="nav-link method-item" href="#AfterInsertFile">AfterInsertFile</a>
+          <a class="nav-link method-item" href="#AfterReplace">AfterReplace</a>
+          <a class="nav-link method-item" href="#AfterSelect">AfterSelect</a>
+          <a class="nav-link method-item" href="#AfterUpdate">AfterUpdate</a>
+          <a class="nav-link method-item" href="#DatabaseClosed">DatabaseClosed</a>
+          <a class="nav-link method-item" href="#DatabaseCreated">DatabaseCreated</a>
+          <a class="nav-link method-item" href="#DatabaseDowngrade">DatabaseDowngrade</a>
+          <a class="nav-link method-item" href="#DatabaseOpened">DatabaseOpened</a>
+          <a class="nav-link method-item" href="#DatabaseUpgrade">DatabaseUpgrade</a>
+          <a class="nav-link method-item" href="#Error">Error</a>
+          <a class="nav-link method-item" href="#SchemaInitialized">SchemaInitialized</a>
+
+          <div class="toc-title">Methods &mdash; Domain Lomba</div>
+          <a class="nav-link method-item" href="#TambahLombaEvent">TambahLombaEvent</a>
+          <a class="nav-link method-item" href="#DaftarPeserta">DaftarPeserta</a>
+          <a class="nav-link method-item" href="#GantiSesi">GantiSesi</a>
+          <a class="nav-link method-item" href="#InputTimbanganIkan">InputTimbanganIkan</a>
+          <a class="nav-link method-item" href="#CatatTransaksiKantin">CatatTransaksiKantin</a>
+          <a class="nav-link method-item" href="#AmbilDaftarLapakKosong">AmbilDaftarLapakKosong</a>
+          <a class="nav-link method-item" href="#AmbilJurnalBukuKas">AmbilJurnalBukuKas</a>
+          <a class="nav-link method-item" href="#AmbilKlasemenLiveGlobal">AmbilKlasemenLiveGlobal</a>
+          <a class="nav-link method-item" href="#AmbilKlasemenPerSesi">AmbilKlasemenPerSesi</a>
+          <a class="nav-link method-item" href="#AmbilSkorDuelSampinganC">AmbilSkorDuelSampinganC</a>
+          <a class="nav-link method-item" href="#InisialisasiSkema">InisialisasiSkema</a>
+
+          <div class="toc-title">Methods &mdash; SQLite Generik</div>
+          <a class="nav-link method-item" href="#methods">Lihat semua &rarr;</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main content -->
+    <div class="col-lg-9">
+
+      <!-- Overview -->
+      <section id="overview" class="doc-section">
+        <div class="section-head">
+          <div class="icon-badge"><i class="fa-solid fa-circle-info"></i></div>
+          <div>
+            <h2>Ringkasan</h2>
+            <div class="count">Apa yang dilakukan extension ini</div>
+          </div>
+        </div>
+        <div class="intro-card">
+          <ol>
+            <li><strong>Kemampuan generik SQLite penuh.</strong> Membawa seluruh kemampuan generik dari komponen open-source <code>org.bennedum.SQLite.SQLite</code> (Execute, Select, Insert, Update, Delete, Replace, transaksi, dan variasi Async-nya).</li>
+            <li><strong>Hasil query konsisten.</strong> Selalu mengembalikan hasil query SELECT sebagai <span class="pill-type pill-list">YailList</span> berbentuk &ldquo;List of Lists&rdquo; (setiap baris = satu YailList), termasuk untuk hasil satu kolom, sehingga mudah di-parse langsung oleh komponen <code>ListView</code> melalui properti <code>.Elements</code>.</li>
+            <li><strong>Inisialisasi otomatis.</strong> Otomatis membuat &amp; membuka berkas database <code>mancing.db</code> di storage internal aplikasi begitu komponen diletakkan di Screen &mdash; constructor memanggil <code>OpenDatabase()</code> secara otomatis, lalu menjalankan seluruh skema (tabel, index, view, trigger) saat database pertama kali dibuat.</li>
+            <li><strong>Blok level tinggi khusus domain.</strong> Menyediakan blok-blok fungsional khusus lomba mancing seperti <code>TambahLombaEvent</code>, <code>DaftarPeserta</code>, dan <code>InputTimbanganIkan</code>.</li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- Properties -->
+      <section id="properties" class="doc-section">
+        <div class="section-head">
+          <div class="icon-badge"><i class="fa-solid fa-sliders"></i></div>
+          <div>
+            <h2>Properties</h2>
+            <div class="count">3 properti</div>
+          </div>
+        </div>
+
+        <div class="card-member" id="DatabaseName">
+          <div class="sig"><span class="fn">DatabaseName</span> <span class="pill-type pill-text">text</span></div>
+          <p class="desc">Nama berkas database (default: <code>mancing.db</code>). Diterapkan pada pembukaan database berikutnya.</p>
+        </div>
+
+        <div class="card-member" id="DebugToast">
+          <div class="sig"><span class="fn">DebugToast</span> <span class="pill-type pill-boolean">boolean</span></div>
+          <p class="desc">Menampilkan pesan debug sebagai Toast.</p>
+        </div>
+
+        <div class="card-member" id="Version">
+          <div class="sig"><span class="fn">Version</span> <span class="pill-type pill-number">number</span></div>
+          <p class="desc">Versi skema database, untuk penanganan pembaruan struktur tabel (<code>onUpgrade</code>).</p>
+        </div>
+      </section>
+
+      <!-- Events -->
+      <section id="events" class="doc-section">
+        <div class="section-head ev">
+          <div class="icon-badge"><i class="fa-solid fa-bolt"></i></div>
+          <div>
+            <h2>Events</h2>
+            <div class="count">15 event</div>
+          </div>
+        </div>
+
+        <div class="card-member" id="AfterDelete">
+          <div class="sig"><span class="fn">AfterDelete</span><span class="paren">(</span>tag <span class="pill-type pill-text">text</span>, rowCount <span class="pill-type pill-number">number</span><span class="paren">)</span></div>
+          <p class="desc">Dipicu setelah <code>DeleteAsync</code> selesai. <code>rowCount</code> = jumlah baris terhapus.</p>
+        </div>
+
+        <div class="card-member" id="AfterExecute">
+          <div class="sig"><span class="fn">AfterExecute</span><span class="paren">(</span>tag <span class="pill-type pill-text">text</span>, result <span class="pill-type pill-boolean">boolean</span><span class="paren">)</span></div>
+          <p class="desc">Dipicu setelah <code>ExecuteAsync</code> selesai. <code>tag</code> = identifier panggilan, <code>result</code> = berhasil/tidak.</p>
+        </div>
+
+        <div class="card-member" id="AfterExecuteFile">
+          <div class="sig"><span class="fn">AfterExecuteFile</span><span class="paren">(</span>tag <span class="pill-type pill-text">text</span>, execCount <span class="pill-type pill-number">number</span><span class="paren">)</span></div>
+          <p class="desc">Dipicu setelah <code>ExecuteFileAsync</code> selesai. <code>execCount</code> = jumlah statement yang berhasil dijalankan.</p>
+        </div>
+
+        <div class="card-member" id="AfterInsert">
+          <div class="sig"><span class="fn">AfterInsert</span><span class="paren">(</span>tag <span class="pill-type pill-text">text</span>, rowId <span class="pill-type pill-number">number</span><span class="paren">)</span></div>
+          <p class="desc">Dipicu setelah <code>InsertAsync</code> selesai. <code>rowId</code> = ID baris baru.</p>
+        </div>
+
+        <div class="card-member" id="AfterInsertFile">
+          <div class="sig"><span class="fn">AfterInsertFile</span><span class="paren">(</span>tag <span class="pill-type pill-text">text</span>, rowCount <span class="pill-type pill-number">number</span><span class="paren">)</span></div>
+          <p class="desc">Dipicu setelah <code>InsertFileAsync</code> selesai. <code>rowCount</code> = jumlah baris yang berhasil disisipkan.</p>
+        </div>
+
+        <div class="card-member" id="AfterReplace">
+          <div class="sig"><span class="fn">AfterReplace</span><span class="paren">(</span>tag <span class="pill-type pill-text">text</span>, rowId <span class="pill-type pill-number">number</span><span class="paren">)</span></div>
+          <p class="desc">Dipicu setelah <code>ReplaceAsync</code> selesai.</p>
+        </div>
+
+        <div class="card-member" id="AfterSelect">
+          <div class="sig"><span class="fn">AfterSelect</span><span class="paren">(</span>tag <span class="pill-type pill-text">text</span>, rowCount <span class="pill-type pill-number">number</span>, rows <span class="pill-type pill-list">list</span><span class="paren">)</span></div>
+          <p class="desc">Dipicu setelah <code>SelectSQLAsync</code>/<code>SelectAsync</code> selesai. <code>rows</code> = List of Lists hasil query.</p>
+        </div>
+
+        <div class="card-member" id="AfterUpdate">
+          <div class="sig"><span class="fn">AfterUpdate</span><span class="paren">(</span>tag <span class="pill-type pill-text">text</span>, rowCount <span class="pill-type pill-number">number</span><span class="paren">)</span></div>
+          <p class="desc">Dipicu setelah <code>UpdateAsync</code> selesai. <code>rowCount</code> = jumlah baris terdampak.</p>
+        </div>
+
+        <div class="card-member" id="DatabaseClosed">
+          <div class="sig"><span class="fn">DatabaseClosed</span><span class="paren">()</span></div>
+          <p class="desc">Dipicu saat database ditutup.</p>
+        </div>
+
+        <div class="card-member" id="DatabaseCreated">
+          <div class="sig"><span class="fn">DatabaseCreated</span><span class="paren">()</span></div>
+          <p class="desc">Dipicu saat berkas database pertama kali dibuat.</p>
+        </div>
+
+        <div class="card-member" id="DatabaseDowngrade">
+          <div class="sig"><span class="fn">DatabaseDowngrade</span><span class="paren">(</span>oldVersion <span class="pill-type pill-number">number</span>, newVersion <span class="pill-type pill-number">number</span><span class="paren">)</span></div>
+          <p class="desc">Dipicu saat versi database diturunkan.</p>
+        </div>
+
+        <div class="card-member" id="DatabaseOpened">
+          <div class="sig"><span class="fn">DatabaseOpened</span><span class="paren">()</span></div>
+          <p class="desc">Dipicu saat database berhasil dibuka.</p>
+        </div>
+
+        <div class="card-member" id="DatabaseUpgrade">
+          <div class="sig"><span class="fn">DatabaseUpgrade</span><span class="paren">(</span>oldVersion <span class="pill-type pill-number">number</span>, newVersion <span class="pill-type pill-number">number</span><span class="paren">)</span></div>
+          <p class="desc">Dipicu saat versi database dinaikkan (properti <code>Version</code> lebih besar dari sebelumnya).</p>
+        </div>
+
+        <div class="card-member" id="Error">
+          <div class="sig"><span class="fn">Error</span><span class="paren">(</span>method <span class="pill-type pill-text">text</span>, message <span class="pill-type pill-text">text</span><span class="paren">)</span></div>
+          <p class="desc">Dipicu setiap kali terjadi kesalahan SQL / operasi database. <code>method</code> = nama blok yang gagal, <code>message</code> = pesan error.</p>
+        </div>
+
+        <div class="card-member" id="SchemaInitialized">
+          <div class="sig"><span class="fn">SchemaInitialized</span><span class="paren">(</span>success <span class="pill-type pill-boolean">boolean</span>, message <span class="pill-type pill-text">text</span><span class="paren">)</span></div>
+          <p class="desc">Dipicu setelah skema (tabel/index/view/trigger) berhasil/gagal dijalankan. <code>success</code> = true/false, <code>message</code> = keterangan.</p>
+        </div>
+      </section>
+
+      <!-- Methods -->
+      <section id="methods" class="doc-section">
+        <div class="section-head mt">
+          <div class="icon-badge"><i class="fa-solid fa-terminal"></i></div>
+          <div>
+            <h2>Methods</h2>
+            <div class="count">35 method</div>
+          </div>
+        </div>
+
+        <ul class="nav nav-tabs mb-3" id="methodTabs" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-domain" type="button">Domain Lomba Mancing</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-generic" type="button">SQLite Generik</button>
+          </li>
+        </ul>
+
+        <div class="tab-content">
+          <!-- Domain-specific methods -->
+          <div class="tab-pane fade show active" id="tab-domain">
+
+            <div class="card-member" id="TambahLombaEvent">
+              <div class="sig"><span class="fn">TambahLombaEvent</span><span class="paren">(</span>nama <span class="pill-type pill-text">text</span>, catatan <span class="pill-type pill-text">text</span><span class="paren">)</span><span class="badge-return">returns list</span></div>
+              <p class="desc">Membuat event/lomba baru. Output: <code>[[id_event, "Aktif"]]</code>.</p>
+            </div>
+
+            <div class="card-member" id="DaftarPeserta">
+              <div class="sig"><span class="fn">DaftarPeserta</span><span class="paren">(</span>idLomba <span class="pill-type pill-number">number</span>, noLapak <span class="pill-type pill-number">number</span>, namaPeserta <span class="pill-type pill-text">text</span>, noHp <span class="pill-type pill-text">text</span>, joinC <span class="pill-type pill-number">number</span>, joinSS <span class="pill-type pill-number">number</span><span class="paren">)</span><span class="badge-return">returns list</span></div>
+              <p class="desc">Mendaftarkan peserta baru ke suatu lapak pada lomba tertentu. Akan gagal (dan memicu event <code>Error</code>) jika melanggar <code>UNIQUE(id_lomba, no_lapak)</code>. Output: <code>[[id_peserta, "Terdaftar"]]</code> atau <code>[[-1, pesan_error]]</code>.</p>
+            </div>
+
+            <div class="card-member" id="GantiSesi">
+              <div class="sig"><span class="fn">GantiSesi</span><span class="paren">(</span>idLomba <span class="pill-type pill-number">number</span>, namaSesiBaru <span class="pill-type pill-text">text</span><span class="paren">)</span><span class="badge-return">returns list</span></div>
+              <p class="desc">Menutup sesi yang sedang berjalan (status &lsquo;Mulai&rsquo; &rarr; &lsquo;Selesai&rsquo;) lalu membuka sesi baru berikutnya, dieksekusi dalam satu transaksi. Output: <code>[[id_sesi_baru, "Mulai"]]</code>.</p>
+            </div>
+
+            <div class="card-member" id="InputTimbanganIkan">
+              <div class="sig"><span class="fn">InputTimbanganIkan</span><span class="paren">(</span>idPeserta <span class="pill-type pill-number">number</span>, idSesi <span class="pill-type pill-number">number</span>, beratKg <span class="pill-type pill-number">number</span><span class="paren">)</span><span class="badge-return">returns list</span></div>
+              <p class="desc">Mencatat hasil timbangan ikan seorang peserta pada suatu sesi. Ditolak jika berat bernilai negatif (CHECK constraint). Output: <code>[[id_timbangan, "Tercatat"]]</code> atau <code>[[-1, pesan_error]]</code>.</p>
+            </div>
+
+            <div class="card-member" id="CatatTransaksiKantin">
+              <div class="sig"><span class="fn">CatatTransaksiKantin</span><span class="paren">(</span>idLomba <span class="pill-type pill-number">number</span>, idPeserta <span class="pill-type pill-number">number</span>, idMenu <span class="pill-type pill-number">number</span>, qty <span class="pill-type pill-number">number</span>, jumlah <span class="pill-type pill-number">number</span>, keterangan <span class="pill-type pill-text">text</span><span class="paren">)</span><span class="badge-return">returns list</span></div>
+              <p class="desc">Mencatat transaksi pembelian kantin oleh peserta. Otomatis memicu Financial Engine Trigger untuk memperbarui kas utama &amp; buku besar. Output: <code>[[id_transaksi, "Tercatat"]]</code> atau <code>[[-1, pesan_error]]</code>.</p>
+            </div>
+
+            <div class="card-member" id="AmbilDaftarLapakKosong">
+              <div class="sig"><span class="fn">AmbilDaftarLapakKosong</span><span class="paren">(</span>idLomba <span class="pill-type pill-number">number</span><span class="paren">)</span><span class="badge-return">returns list</span></div>
+              <p class="desc">Melacak nomor lapak kolam yang belum terisi pada suatu lomba, memakai CTE Recursive berdasarkan setting <code>jumlah_lapak</code>. Output: <code>[[1], [3], [4], [7], ...]</code>.</p>
+            </div>
+
+            <div class="card-member" id="AmbilJurnalBukuKas">
+              <div class="sig"><span class="fn">AmbilJurnalBukuKas</span><span class="paren">(</span>idLomba <span class="pill-type pill-number">number</span><span class="paren">)</span><span class="badge-return">returns list</span></div>
+              <p class="desc">Mengambil seluruh rekam arus kas (buku besar) suatu lomba, terurut kronologis. Output: <code>[[id_transaksi, jenis, kategori, jumlah, saldo_setelah, keterangan], ...]</code>.</p>
+            </div>
+
+            <div class="card-member" id="AmbilKlasemenLiveGlobal">
+              <div class="sig"><span class="fn">AmbilKlasemenLiveGlobal</span><span class="paren">(</span>idLomba <span class="pill-type pill-number">number</span><span class="paren">)</span><span class="badge-return">returns list</span></div>
+              <p class="desc">Membaca klasemen live keseluruhan (langsung dari view <code>v_klasemen</code>). Output: <code>[[no_lapak, nama_peserta, total_berat_kg, jumlah_tangkapan], ...]</code>.</p>
+            </div>
+
+            <div class="card-member" id="AmbilKlasemenPerSesi">
+              <div class="sig"><span class="fn">AmbilKlasemenPerSesi</span><span class="paren">(</span>idLomba <span class="pill-type pill-number">number</span>, idSesi <span class="pill-type pill-number">number</span><span class="paren">)</span><span class="badge-return">returns list</span></div>
+              <p class="desc">Membaca klasemen per sesi/babak (langsung dari view <code>v_klasemen_sesi</code>). Output: <code>[[no_lapak, nama_peserta, total_berat_kg_sesi, ikan_terberat_sesi], ...]</code>.</p>
+            </div>
+
+            <div class="card-member" id="AmbilSkorDuelSampinganC">
+              <div class="sig"><span class="fn">AmbilSkorDuelSampinganC</span><span class="paren">(</span>idLomba <span class="pill-type pill-number">number</span>, idSesi <span class="pill-type pill-number">number</span><span class="paren">)</span><span class="badge-return">returns list</span></div>
+              <p class="desc">Mengevaluasi skor duel taruhan sampingan C antar lapak secara realtime (langsung dari view <code>v_sampingan_c_live</code>). Output: <code>[[lapak_a, nama_a, total_a, lapak_b, nama_b, total_b, pemenang_duel], ...]</code>.</p>
+            </div>
+
+            <div class="card-member" id="InisialisasiSkema">
+              <div class="sig"><span class="fn">InisialisasiSkema</span><span class="paren">()</span><span class="badge-return">returns list</span></div>
+              <p class="desc">Menjalankan ulang seluruh DDL skema (tabel, index, view, trigger) secara manual. Biasanya tidak perlu dipanggil karena sudah otomatis saat database pertama kali dibuat. Output: <code>[["Sukses", "Skema Terbentuk"]]</code> atau <code>[["Gagal", pesan_error]]</code>.</p>
+            </div>
+
+          </div>
+
+          <!-- Generic SQLite methods -->
+          <div class="tab-pane fade" id="tab-generic">
+
+            <h5 class="mt-2 mb-3" style="color:var(--teal);font-size:.85rem;text-transform:uppercase;letter-spacing:.5px;">CRUD &amp; Query</h5>
+
+            <div class="card-member" id="Select">
+              <div class="sig"><span class="fn">Select</span><span class="paren">(</span>table <span class="pill-type pill-text">text</span>, distinct <span class="pill-type pill-boolean">boolean</span>, columns <span class="pill-type pill-list">list</span>, whereClause <span class="pill-type pill-text">text</span>, bindParams <span class="pill-type pill-list">list</span>, groupBy <span class="pill-type pill-text">text</span>, having <span class="pill-type pill-text">text</span>, orderBy <span class="pill-type pill-text">text</span>, limit <span class="pill-type pill-text">text</span><span class="paren">)</span><span class="badge-return">returns list</span></div>
+              <p class="desc">Menjalankan SELECT terstruktur (table/columns/where/groupBy/having/orderBy/limit). Hasil selalu berbentuk List of Lists.</p>
+            </div>
+
+            <div class="card-member" id="SelectAsync">
+              <div class="sig"><span class="fn">SelectAsync</span><span class="paren">(</span>tag, table, distinct, columns, whereClause, bindParams, groupBy, having, orderBy, limit<span class="paren">)</span></div>
+              <p class="desc">Sama seperti <code>Select</code>, dijalankan secara asynchronous. Event <code>AfterSelect</code> akan dipicu.</p>
+            </div>
+
+            <div class="card-member" id="SelectSQL">
+              <div class="sig"><span class="fn">SelectSQL</span><span class="paren">(</span>sql <span class="pill-type pill-text">text</span>, bindParams <span class="pill-type pill-list">list</span><span class="paren">)</span><span class="badge-return">returns list</span></div>
+              <p class="desc">Menjalankan SQL SELECT mentah dan mengembalikan hasil sebagai List of Lists, siap dipakai di <code>ListView.Elements</code>.</p>
+            </div>
+
+            <div class="card-member" id="SelectSQLAsync">
+              <div class="sig"><span class="fn">SelectSQLAsync</span><span class="paren">(</span>tag <span class="pill-type pill-text">text</span>, sql <span class="pill-type pill-text">text</span>, bindParams <span class="pill-type pill-list">list</span><span class="paren">)</span></div>
+              <p class="desc">Sama seperti <code>SelectSQL</code>, dijalankan secara asynchronous. Event <code>AfterSelect</code> akan dipicu.</p>
+            </div>
+
+            <div class="card-member" id="Insert">
+              <div class="sig"><span class="fn">Insert</span><span class="paren">(</span>table <span class="pill-type pill-text">text</span>, columns <span class="pill-type pill-list">list</span>, values <span class="pill-type pill-list">list</span><span class="paren">)</span><span class="badge-return">returns number</span></div>
+              <p class="desc">Menyisipkan satu baris baru. Mengembalikan row ID baris baru, atau -1 jika gagal.</p>
+            </div>
+
+            <div class="card-member" id="InsertAsync">
+              <div class="sig"><span class="fn">InsertAsync</span><span class="paren">(</span>tag, table, columns, values<span class="paren">)</span></div>
+              <p class="desc">Sama seperti <code>Insert</code>, dijalankan secara asynchronous. Event <code>AfterInsert</code> akan dipicu.</p>
+            </div>
+
+            <div class="card-member" id="Update">
+              <div class="sig"><span class="fn">Update</span><span class="paren">(</span>table, columns, values, whereClause, bindParams<span class="paren">)</span><span class="badge-return">returns number</span></div>
+              <p class="desc">Mengubah baris yang sesuai <code>whereClause</code>. Mengembalikan jumlah baris terdampak, atau -1 jika gagal.</p>
+            </div>
+
+            <div class="card-member" id="UpdateAsync">
+              <div class="sig"><span class="fn">UpdateAsync</span><span class="paren">(</span>tag, table, columns, values, whereClause, bindParams<span class="paren">)</span></div>
+              <p class="desc">Sama seperti <code>Update</code>, dijalankan secara asynchronous. Event <code>AfterUpdate</code> akan dipicu.</p>
+            </div>
+
+            <div class="card-member" id="Delete">
+              <div class="sig"><span class="fn">Delete</span><span class="paren">(</span>table <span class="pill-type pill-text">text</span>, whereClause <span class="pill-type pill-text">text</span>, bindParams <span class="pill-type pill-list">list</span><span class="paren">)</span><span class="badge-return">returns number</span></div>
+              <p class="desc">Menghapus baris yang sesuai <code>whereClause</code>. Mengembalikan jumlah baris terhapus, atau -1 jika gagal.</p>
+            </div>
+
+            <div class="card-member" id="DeleteAsync">
+              <div class="sig"><span class="fn">DeleteAsync</span><span class="paren">(</span>tag, table, whereClause, bindParams<span class="paren">)</span></div>
+              <p class="desc">Sama seperti <code>Delete</code>, dijalankan secara asynchronous. Event <code>AfterDelete</code> akan dipicu.</p>
+            </div>
+
+            <div class="card-member" id="Replace">
+              <div class="sig"><span class="fn">Replace</span><span class="paren">(</span>table, columns, values<span class="paren">)</span><span class="badge-return">returns number</span></div>
+              <p class="desc">Menyisipkan atau mengganti (REPLACE) satu baris. Mengembalikan row ID, atau -1 jika gagal.</p>
+            </div>
+
+            <div class="card-member" id="ReplaceAsync">
+              <div class="sig"><span class="fn">ReplaceAsync</span><span class="paren">(</span>tag, table, columns, values<span class="paren">)</span></div>
+              <p class="desc">Sama seperti <code>Replace</code>, dijalankan secara asynchronous. Event <code>AfterReplace</code> akan dipicu.</p>
+            </div>
+
+            <div class="card-member" id="Execute">
+              <div class="sig"><span class="fn">Execute</span><span class="paren">(</span>sql <span class="pill-type pill-text">text</span>, bindParams <span class="pill-type pill-list">list</span><span class="paren">)</span><span class="badge-return">returns boolean</span></div>
+              <p class="desc">Menjalankan satu statement SQL non-SELECT (INSERT/UPDATE/DELETE/DDL) dengan parameter binding. Mengembalikan true jika berhasil.</p>
+            </div>
+
+            <div class="card-member" id="ExecuteAsync">
+              <div class="sig"><span class="fn">ExecuteAsync</span><span class="paren">(</span>tag <span class="pill-type pill-text">text</span>, sql <span class="pill-type pill-text">text</span>, bindParams <span class="pill-type pill-list">list</span><span class="paren">)</span></div>
+              <p class="desc">Sama seperti <code>Execute</code>, dijalankan secara asynchronous. Event <code>AfterExecute</code> akan dipicu.</p>
+            </div>
+
+            <h5 class="mt-4 mb-3" style="color:var(--teal);font-size:.85rem;text-transform:uppercase;letter-spacing:.5px;">Transaksi</h5>
+
+            <div class="card-member" id="BeginTransaction">
+              <div class="sig"><span class="fn">BeginTransaction</span><span class="paren">()</span></div>
+              <p class="desc">Memulai transaksi pada database yang sedang terbuka.</p>
+            </div>
+            <div class="card-member" id="CommitTransaction">
+              <div class="sig"><span class="fn">CommitTransaction</span><span class="paren">()</span></div>
+              <p class="desc">Meng-commit transaksi yang sedang berjalan.</p>
+            </div>
+            <div class="card-member" id="RollbackTransaction">
+              <div class="sig"><span class="fn">RollbackTransaction</span><span class="paren">()</span></div>
+              <p class="desc">Membatalkan (rollback) transaksi yang sedang berjalan.</p>
+            </div>
+
+            <h5 class="mt-4 mb-3" style="color:var(--teal);font-size:.85rem;text-transform:uppercase;letter-spacing:.5px;">Berkas &amp; Impor/Ekspor</h5>
+
+            <div class="card-member" id="ExecuteFile">
+              <div class="sig"><span class="fn">ExecuteFile</span><span class="paren">(</span>fileName <span class="pill-type pill-text">text</span><span class="paren">)</span><span class="badge-return">returns number</span></div>
+              <p class="desc">Mengeksekusi banyak statement SQL non-SELECT dari sebuah berkas (satu statement per baris). Baris kosong dan komentar (<code>--</code> atau <code>/*...*/</code>) diabaikan. Berhenti pada error pertama.</p>
+            </div>
+            <div class="card-member" id="ExecuteFileAsync">
+              <div class="sig"><span class="fn">ExecuteFileAsync</span><span class="paren">(</span>tag, fileName<span class="paren">)</span></div>
+              <p class="desc">Sama seperti <code>ExecuteFile</code>, dijalankan secara asynchronous. Event <code>AfterExecuteFile</code> akan dipicu.</p>
+            </div>
+            <div class="card-member" id="InsertFile">
+              <div class="sig"><span class="fn">InsertFile</span><span class="paren">(</span>table <span class="pill-type pill-text">text</span>, fileName <span class="pill-type pill-text">text</span><span class="paren">)</span><span class="badge-return">returns number</span></div>
+              <p class="desc">Menyisipkan banyak baris dari berkas CSV ke suatu tabel. Baris pertama = nama kolom.</p>
+            </div>
+            <div class="card-member" id="InsertFileAsync">
+              <div class="sig"><span class="fn">InsertFileAsync</span><span class="paren">(</span>tag, table, fileName<span class="paren">)</span></div>
+              <p class="desc">Sama seperti <code>InsertFile</code>, dijalankan secara asynchronous. Event <code>AfterInsertFile</code> akan dipicu.</p>
+            </div>
+            <div class="card-member" id="ExportDatabase">
+              <div class="sig"><span class="fn">ExportDatabase</span><span class="paren">(</span>fileName <span class="pill-type pill-text">text</span><span class="paren">)</span><span class="badge-return">returns boolean</span></div>
+              <p class="desc">Mengekspor database yang sedang tertutup ke berkas tujuan sebagai salinan lengkap SQLite.</p>
+            </div>
+            <div class="card-member" id="ImportDatabase">
+              <div class="sig"><span class="fn">ImportDatabase</span><span class="paren">(</span>fileName <span class="pill-type pill-text">text</span><span class="paren">)</span><span class="badge-return">returns boolean</span></div>
+              <p class="desc">Mengimpor berkas database SQLite eksternal, menggantikan total database yang sedang tertutup.</p>
+            </div>
+
+            <h5 class="mt-4 mb-3" style="color:var(--teal);font-size:.85rem;text-transform:uppercase;letter-spacing:.5px;">Manajemen &amp; Inspeksi Database</h5>
+
+            <div class="card-member" id="OpenDatabase">
+              <div class="sig"><span class="fn">OpenDatabase</span><span class="paren">()</span></div>
+              <p class="desc">Membuka (atau membuat jika belum ada) database beserta skemanya. Dipanggil otomatis saat inisialisasi komponen; disediakan untuk membuka ulang setelah <code>CloseDatabase()</code>.</p>
+            </div>
+            <div class="card-member" id="CloseDatabase">
+              <div class="sig"><span class="fn">CloseDatabase</span><span class="paren">()</span></div>
+              <p class="desc">Menutup database. Transaksi yang belum di-commit akan di-rollback.</p>
+            </div>
+            <div class="card-member" id="DeleteDatabase">
+              <div class="sig"><span class="fn">DeleteDatabase</span><span class="paren">()</span></div>
+              <p class="desc">Menghapus berkas database secara permanen. Database harus dalam keadaan tertutup.</p>
+            </div>
+            <div class="card-member" id="DatabaseExists">
+              <div class="sig"><span class="fn">DatabaseExists</span><span class="paren">()</span><span class="badge-return">returns boolean</span></div>
+              <p class="desc">Mengembalikan true jika berkas database sudah ada.</p>
+            </div>
+            <div class="card-member" id="DatabasePath">
+              <div class="sig"><span class="fn">DatabasePath</span><span class="paren">()</span><span class="badge-return">returns text</span></div>
+              <p class="desc">Mengembalikan path lengkap ke berkas database, walau belum ada.</p>
+            </div>
+            <div class="card-member" id="IsDatabaseOpen">
+              <div class="sig"><span class="fn">IsDatabaseOpen</span><span class="paren">()</span><span class="badge-return">returns boolean</span></div>
+              <p class="desc">Mengembalikan true jika database sedang terbuka.</p>
+            </div>
+            <div class="card-member" id="TableCount">
+              <div class="sig"><span class="fn">TableCount</span><span class="paren">()</span><span class="badge-return">returns number</span></div>
+              <p class="desc">Mengembalikan jumlah tabel dalam database, atau -1 jika gagal / database tertutup.</p>
+            </div>
+            <div class="card-member" id="TableExists">
+              <div class="sig"><span class="fn">TableExists</span><span class="paren">(</span>table <span class="pill-type pill-text">text</span><span class="paren">)</span><span class="badge-return">returns boolean</span></div>
+              <p class="desc">Mengembalikan true jika nama tabel tersebut ada di database.</p>
+            </div>
+            <div class="card-member" id="TableNames">
+              <div class="sig"><span class="fn">TableNames</span><span class="paren">()</span><span class="badge-return">returns list</span></div>
+              <p class="desc">Mengembalikan daftar nama tabel dalam database sebagai list satu kolom.</p>
+            </div>
+            <div class="card-member" id="TableRowCount">
+              <div class="sig"><span class="fn">TableRowCount</span><span class="paren">(</span>table <span class="pill-type pill-text">text</span><span class="paren">)</span><span class="badge-return">returns number</span></div>
+              <p class="desc">Mengembalikan jumlah baris pada suatu tabel, atau -1 jika gagal.</p>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</div>
+
+<footer class="py-4 mt-4">
+  <div class="container text-center">
+    <div class="mb-1"><img src="assets/logo.png" alt="Mancingin Extension Suite" style="height:16px;width:auto;vertical-align:-3px;" class="me-1"> MancinginExtension &mdash; Non-visible Extension untuk MIT App Inventor</div>
+    <div class="opacity-75">Dihasilkan dari <code>extension.md</code> &middot; kategori: EXTENSION</div>
+  </div>
+</footer>
+
+<button id="backToTop" title="Kembali ke atas"><i class="fa-solid fa-arrow-up"></i></button>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+<script>
+  const backBtn = document.getElementById('backToTop');
+  window.addEventListener('scroll', () => {
+    backBtn.style.display = window.scrollY > 400 ? 'block' : 'none';
+  });
+  backBtn.addEventListener('click', () => window.scrollTo({top:0, behavior:'smooth'}));
+</script>
+</body>
+</html>

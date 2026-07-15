@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LapakCanvasExtension &mdash; Dokumentasi Extension MIT App Inventor</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --deep:#0b3d4c;
+    --teal:#0f7a8c;
+    --aqua:#1fb6b0;
+    --lure:#ff7a3d;
+    --sand:#f6f3ea;
+    --ink:#123138;
+    --line:#dfe6e2;
+    --kosong:#00cc00;
+    --terisi:#ff2b2b;
+  }
+  html{scroll-behavior:smooth;}
+  body{ font-family:'Inter',system-ui,sans-serif; color:var(--ink); background:var(--sand); }
+  h1,h2,h3,h4,.brand,.navpill{font-family:'Sora',sans-serif;}
+  code, .mono{font-family:'JetBrains Mono',monospace;}
+
+  .topbar{
+    background:linear-gradient(100deg,var(--deep) 0%,#0e5566 60%,var(--teal) 100%);
+    color:#eaf6f5; border-bottom:3px solid var(--lure);
+  }
+  .topbar .brand{font-weight:800;font-size:1.15rem;letter-spacing:.2px;}
+  .topbar .subtitle{font-size:.78rem;color:#bfe3df;letter-spacing:.5px;text-transform:uppercase;}
+  .badge-version{
+    background:rgba(255,122,61,.16); border:1px solid var(--lure); color:#ffd9c4;
+    font-family:'JetBrains Mono',monospace; font-size:.72rem;
+  }
+
+  .hero{
+    background:
+      radial-gradient(60% 100% at 85% 0%, rgba(31,182,176,.35), transparent 60%),
+      linear-gradient(180deg,var(--deep), #0d4e5f 100%);
+    color:#eaf6f5; position:relative; overflow:hidden; border-bottom:1px solid rgba(255,255,255,.08);
+  }
+  .hero .eyebrow{color:var(--lure); font-weight:600; letter-spacing:1.5px; font-size:.75rem; text-transform:uppercase;}
+  .hero h1{font-weight:800; font-size:2.3rem;}
+  .hero p.lead{color:#cfe8e5; font-size:1.02rem; max-width:600px;}
+  .stat-chip{background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.14); border-radius:10px; padding:.65rem .9rem;}
+  .stat-chip .num{font-family:'JetBrains Mono',monospace; font-weight:700; font-size:1.35rem; color:#ffd9c4;}
+  .stat-chip .lbl{font-size:.72rem; color:#bfe3df; text-transform:uppercase; letter-spacing:.5px;}
+
+  .diagram-card{
+    background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.16);
+    border-radius:14px; padding:1rem;
+  }
+  .lapak-box{ font-family:'JetBrains Mono',monospace; font-weight:700; font-size:.72rem; }
+
+  .sidebar{ position:sticky; top:76px; max-height:calc(100vh - 96px); overflow-y:auto; padding-right:.5rem; }
+  .sidebar::-webkit-scrollbar{width:6px;}
+  .sidebar::-webkit-scrollbar-thumb{background:#c7d6d2;border-radius:6px;}
+  .toc-title{font-size:.72rem; text-transform:uppercase; letter-spacing:1px; color:#5c7a76; font-weight:700; margin:1.1rem 0 .4rem;}
+  .toc-title:first-child{margin-top:0;}
+  .nav-pills .nav-link{ color:var(--ink); font-size:.88rem; padding:.3rem .6rem; border-radius:7px; border-left:2px solid transparent; }
+  .nav-pills .nav-link.method-item{color:#4a615d; font-size:.82rem;}
+  .nav-pills .nav-link:hover{background:#e7f1ef;}
+  .nav-pills .nav-link.active{ background:rgba(31,182,176,.12); color:var(--deep); font-weight:600; border-left:2px solid var(--aqua); }
+
+  section.doc-section{scroll-margin-top:80px; margin-bottom:3rem;}
+  .section-head{ display:flex; align-items:center; gap:.6rem; margin-bottom:1rem; padding-bottom:.6rem; border-bottom:2px solid var(--line); }
+  .section-head .icon-badge{
+    width:36px; height:36px; border-radius:9px; display:flex; align-items:center; justify-content:center;
+    background:var(--deep); color:#bfe3df; font-size:.95rem; flex-shrink:0;
+  }
+  .section-head.ev .icon-badge{background:var(--lure); color:#3a1300;}
+  .section-head.mt .icon-badge{background:var(--aqua); color:#053331;}
+  .section-head h2{margin:0; font-size:1.4rem; font-weight:700; color:var(--deep);}
+  .section-head .count{font-size:.78rem; color:#6d8985; font-weight:500;}
+
+  .card-member{
+    background:#fff; border:1px solid var(--line); border-radius:12px;
+    padding:1.1rem 1.25rem; margin-bottom:.9rem; scroll-margin-top:80px;
+    transition:box-shadow .15s ease, border-color .15s ease;
+  }
+  .card-member:hover{box-shadow:0 4px 18px rgba(11,61,76,.08); border-color:#c3e0dc;}
+  .card-member .sig{ font-family:'JetBrains Mono',monospace; font-size:.92rem; color:var(--deep); font-weight:600; word-break:break-word; }
+  .card-member .sig .fn{color:var(--teal); font-weight:700;}
+  .card-member .sig .paren{color:#93a8a5;}
+  .card-member p.desc{margin:.55rem 0 0; font-size:.9rem; color:#37504d; line-height:1.55;}
+  .pill-type{ font-family:'JetBrains Mono',monospace; font-size:.68rem; padding:.15rem .5rem; border-radius:20px; border:1px solid; margin-left:.15rem; white-space:nowrap; }
+  .pill-text{color:#0f7a8c; border-color:#bfe3df; background:#eafaf8;}
+  .pill-number{color:#946200; border-color:#f0dcac; background:#fff8e8;}
+  .pill-boolean{color:#8a3ba8; border-color:#e6c9f0; background:#faf1fd;}
+  .pill-list{color:#c14e2f; border-color:#f3c6b4; background:#fff2ec;}
+  .pill-color{color:#b3006b; border-color:#f0b8d9; background:#fff0f8;}
+  .pill-component{color:#2a5da0; border-color:#c0d4ee; background:#eef4fd;}
+  .badge-return{ font-size:.68rem; font-weight:600; padding:.2rem .55rem; border-radius:6px; background:var(--deep); color:#dff3f1; margin-left:.4rem; }
+  .color-swatch{ display:inline-block; width:14px; height:14px; border-radius:4px; vertical-align:-2px; border:1px solid rgba(0,0,0,.15); margin-right:.35rem; }
+
+  .intro-card{ background:#fff; border:1px solid var(--line); border-radius:14px; padding:1.5rem; }
+  .intro-card ul{margin-bottom:0;}
+  .intro-card li{margin-bottom:.55rem; font-size:.93rem; line-height:1.6;}
+
+  .note-card{
+    background:#fff8ec; border:1px solid #f0dcac; border-radius:12px; padding:1.1rem 1.25rem;
+  }
+  .note-card .note-title{ color:#946200; font-weight:700; font-size:.85rem; text-transform:uppercase; letter-spacing:.4px; }
+
+  footer{ background:var(--deep); color:#a9cfca; font-size:.85rem; }
+  .btn-lure{background:var(--lure); border-color:var(--lure); color:#fff;}
+  .btn-lure:hover{background:#e5652a; border-color:#e5652a; color:#fff;}
+  .back-index{color:#bfe3df; font-size:.85rem; text-decoration:none;}
+  .back-index:hover{color:#fff;}
+
+  /* ---------- Page switcher nav ---------- */
+  .pagenav{ background:#0e4a5c; border-bottom:1px solid rgba(255,255,255,.08); }
+  .pagenav-inner{ display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:.5rem; padding:.55rem 0; }
+  .pagenav-links{ display:flex; flex-wrap:wrap; gap:.4rem; }
+  .pagenav-link{
+    display:inline-flex; align-items:center; gap:.35rem; color:#bfe3df; font-size:.82rem; font-weight:600;
+    padding:.35rem .8rem; border-radius:20px; text-decoration:none; border:1px solid transparent;
+    transition:background .15s ease, color .15s ease, border-color .15s ease;
+  }
+  .pagenav-link:hover{ background:rgba(255,255,255,.1); color:#fff; }
+  .pagenav-link.active{ background:var(--lure); color:#fff; border-color:var(--lure); }
+  .pagenav-github{ background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.18); }
+  .pagenav-github:hover{ background:rgba(255,255,255,.16); color:#fff; }
+
+  /* ---------- Brand assets: logo & digital font ---------- */
+  @font-face{
+    font-family:'Seven Segment';
+    src:url('assets/SevenSegment.ttf') format('truetype');
+    font-weight:normal; font-style:normal; font-display:swap;
+  }
+  .brand-logo{ height:34px; width:auto; display:block; flex-shrink:0; }
+  .font-digital{ font-family:'Seven Segment','JetBrains Mono',monospace; letter-spacing:.5px; }
+
+  #backToTop{
+    position:fixed; bottom:24px; right:24px; z-index:999; display:none;
+    width:44px; height:44px; border-radius:50%; background:var(--teal); color:#fff; border:none;
+    box-shadow:0 6px 16px rgba(11,61,76,.35);
+  }
+</style>
+  <link rel="icon" type="image/png" href="assets/logo.png">
+</head>
+<body data-bs-spy="scroll" data-bs-target="#tocNav" data-bs-offset="100" tabindex="0">
+
+<!-- Topbar -->
+<nav class="navbar topbar sticky-top py-2">
+  <div class="container-fluid px-4">
+    <div class="d-flex align-items-center gap-2">
+      <img src="assets/logo.png" alt="Mancingin Extension Suite logo" class="brand-logo">
+      <div>
+        <div class="brand">LapakCanvasExtension</div>
+        <div class="subtitle">Non-visible extension &middot; pendamping MancinginExtension</div>
+      </div>
+    </div>
+    <div class="d-flex align-items-center gap-2">
+      <span class="badge badge-version rounded-pill px-3 py-2"><i class="fa-solid fa-brush me-1"></i> Canvas Renderer</span>
+    </div>
+  </div>
+</nav>
+
+<!-- Page Switcher -->
+<div class="pagenav">
+  <div class="container-fluid px-4 pagenav-inner">
+        <div class="pagenav-links">
+          <a href="https://aos92.github.io/Mancingin-Extension-Mit-App-Invertor/" class="pagenav-link"><i class="fa-solid fa-house me-1"></i>Beranda</a>
+          <a href="https://aos92.github.io/Mancingin-Extension-Mit-App-Invertor/Mancingin.html" class="pagenav-link"><i class="fa-solid fa-fish-fins me-1"></i>Mancingin</a>
+          <a href="https://aos92.github.io/Mancingin-Extension-Mit-App-Invertor/LapakCanvas.html" class="pagenav-link active"><i class="fa-solid fa-vector-square me-1"></i>LapakCanvas</a>
+          <a href="https://aos92.github.io/Mancingin-Extension-Mit-App-Invertor/MenuGalatama.html" class="pagenav-link"><i class="fa-solid fa-bowl-food me-1"></i>MenuGalatama</a>
+          <a href="https://aos92.github.io/Mancingin-Extension-Mit-App-Invertor/TableGalatama.html" class="pagenav-link"><i class="fa-solid fa-table me-1"></i>TableGalatama</a>
+    </div>
+    <a href="https://github.com/aos92/Mancingin-Extension-Mit-App-Invertor" target="_blank" rel="noopener" class="pagenav-link pagenav-github"><i class="fa-brands fa-github me-1"></i>Repo GitHub</a>
+  </div>
+</div>
+
+
+<!-- Hero -->
+<header class="hero py-5">
+  <div class="container position-relative">
+    <div class="row align-items-center g-4">
+      <div class="col-lg-7">
+        <div class="eyebrow mb-2">Dokumentasi Komponen &middot; extension.md</div>
+        <h1>LapakCanvasExtension</h1>
+        <p class="lead mt-2">
+          Ekstensi pendamping untuk <strong>MancinginExtension</strong>. Tugasnya hanya satu: mengambil
+          output &ldquo;List of Lists&rdquo; dari MancinginExtension (daftar lapak kosong &amp; setting
+          <code>jumlah_lapak</code>) lalu menggambarkannya sebagai denah 2 kolom dengan kolam di tengah.
+        </p>
+        <div class="d-flex gap-2 mt-3 flex-wrap">
+          <a href="#overview" class="btn btn-lure btn-sm px-3"><i class="fa-solid fa-book-open me-1"></i> Mulai Baca</a>
+          <a href="#methods" class="btn btn-outline-light btn-sm px-3">Lihat Semua Method</a>
+        </div>
+        <div class="row g-2 mt-3" style="max-width:420px;">
+          <div class="col-4"><div class="stat-chip text-center"><div class="num font-digital">9</div><div class="lbl">Properties</div></div></div>
+          <div class="col-4"><div class="stat-chip text-center"><div class="num font-digital">3</div><div class="lbl">Events</div></div></div>
+          <div class="col-4"><div class="stat-chip text-center"><div class="num font-digital">6</div><div class="lbl">Methods</div></div></div>
+        </div>
+      </div>
+
+      <!-- Live-ish diagram illustrating the layout -->
+      <div class="col-lg-5">
+        <div class="diagram-card">
+          <svg viewBox="0 0 300 210" width="100%" role="img" aria-label="Ilustrasi denah lapak 2 kolom dengan kolam di tengah">
+            <rect x="110" y="4" width="80" height="202" rx="4" fill="#00AEEF" opacity="0.85"/>
+            <text x="150" y="110" text-anchor="middle" fill="#eaf6f5" font-size="10" font-family="JetBrains Mono, monospace" transform="rotate(-90 150 110)">KOLAM</text>
+            <!-- left column: 5 boxes, alternating some filled -->
+            <g class="lapak-box">
+              <rect x="6" y="4" width="96" height="36" rx="4" fill="#00CC00" stroke="#000" stroke-width="1"/>
+              <text x="54" y="26" text-anchor="middle" fill="#fff">1</text>
+              <rect x="6" y="44" width="96" height="36" rx="4" fill="#FF2B2B" stroke="#000" stroke-width="1"/>
+              <text x="54" y="66" text-anchor="middle" fill="#fff">2</text>
+              <rect x="6" y="84" width="96" height="36" rx="4" fill="#00CC00" stroke="#000" stroke-width="1"/>
+              <text x="54" y="106" text-anchor="middle" fill="#fff">3</text>
+              <rect x="6" y="124" width="96" height="36" rx="4" fill="#00CC00" stroke="#000" stroke-width="1"/>
+              <text x="54" y="146" text-anchor="middle" fill="#fff">4</text>
+              <rect x="6" y="164" width="96" height="36" rx="4" fill="#FF2B2B" stroke="#000" stroke-width="1"/>
+              <text x="54" y="186" text-anchor="middle" fill="#fff">5</text>
+            </g>
+            <!-- right column -->
+            <g class="lapak-box">
+              <rect x="198" y="4" width="96" height="36" rx="4" fill="#FF2B2B" stroke="#000" stroke-width="1"/>
+              <text x="246" y="26" text-anchor="middle" fill="#fff">16</text>
+              <rect x="198" y="44" width="96" height="36" rx="4" fill="#00CC00" stroke="#000" stroke-width="1"/>
+              <text x="246" y="66" text-anchor="middle" fill="#fff">17</text>
+              <rect x="198" y="84" width="96" height="36" rx="4" fill="#00CC00" stroke="#000" stroke-width="1"/>
+              <text x="246" y="106" text-anchor="middle" fill="#fff">18</text>
+              <rect x="198" y="124" width="96" height="36" rx="4" fill="#FF2B2B" stroke="#000" stroke-width="1"/>
+              <text x="246" y="146" text-anchor="middle" fill="#fff">19</text>
+              <rect x="198" y="164" width="96" height="36" rx="4" fill="#00CC00" stroke="#000" stroke-width="1"/>
+              <text x="246" y="186" text-anchor="middle" fill="#fff">20</text>
+            </g>
+          </svg>
+          <div class="d-flex justify-content-center gap-3 mt-1" style="font-size:.75rem;color:#cfe8e5;">
+            <span><span class="color-swatch" style="background:#00CC00;"></span>Kosong</span>
+            <span><span class="color-swatch" style="background:#FF2B2B;"></span>Terisi</span>
+            <span><span class="color-swatch" style="background:#00AEEF;"></span>Kolam</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="container-fluid px-4 mt-4">
+  <div class="row">
+
+    <!-- Sidebar TOC -->
+    <div class="col-lg-3 d-none d-lg-block">
+      <div class="sidebar">
+        <div class="nav flex-column nav-pills" id="tocNav">
+          <div class="toc-title">Pengantar</div>
+          <a class="nav-link" href="#overview">Ringkasan</a>
+          <a class="nav-link" href="#rendering-note">Catatan Teknik Rendering</a>
+
+          <div class="toc-title">Properties</div>
+          <a class="nav-link method-item" href="#LebarKotak">LebarKotak</a>
+          <a class="nav-link method-item" href="#TinggiKotak">TinggiKotak</a>
+          <a class="nav-link method-item" href="#TebalBorder">TebalBorder</a>
+          <a class="nav-link method-item" href="#UkuranFont">UkuranFont</a>
+          <a class="nav-link method-item" href="#WarnaBorder">WarnaBorder</a>
+          <a class="nav-link method-item" href="#WarnaKolam">WarnaKolam</a>
+          <a class="nav-link method-item" href="#WarnaKosong">WarnaKosong</a>
+          <a class="nav-link method-item" href="#WarnaTerisi">WarnaTerisi</a>
+          <a class="nav-link method-item" href="#WarnaTeksNomor">WarnaTeksNomor</a>
+
+          <div class="toc-title">Events</div>
+          <a class="nav-link method-item" href="#LapakRendered">LapakRendered</a>
+          <a class="nav-link method-item" href="#LapakDiklik">LapakDiklik</a>
+          <a class="nav-link method-item" href="#Error">Error</a>
+
+          <div class="toc-title">Methods</div>
+          <a class="nav-link method-item" href="#GambarDenahLapak">GambarDenahLapak</a>
+          <a class="nav-link method-item" href="#GambarDariMancingin">GambarDariMancingin</a>
+          <a class="nav-link method-item" href="#GetLapakInfo">GetLapakInfo</a>
+          <a class="nav-link method-item" href="#GetStatusLapak">GetStatusLapak</a>
+          <a class="nav-link method-item" href="#JumlahLapakEfektif">JumlahLapakEfektif</a>
+          <a class="nav-link method-item" href="#ClearCanvas">ClearCanvas</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main content -->
+    <div class="col-lg-9">
+
+      <!-- Overview -->
+      <section id="overview" class="doc-section">
+        <div class="section-head">
+          <div class="icon-badge"><i class="fa-solid fa-circle-info"></i></div>
+          <div>
+            <h2>Ringkasan</h2>
+            <div class="count">Apa yang dilakukan extension ini</div>
+          </div>
+        </div>
+        <div class="intro-card">
+          <ul>
+            <li><strong>Satu tugas, fokus.</strong> Mengambil output &ldquo;List of Lists&rdquo; dari <code>MancinginExtension</code> &mdash; daftar lapak kosong &amp; setting <code>jumlah_lapak</code> &mdash; lalu menggambarkannya sebagai denah.</li>
+            <li><strong>Tata letak 2 kolom.</strong> Kolom kiri dan kanan berisi kotak-kotak lapak bernomor, dengan kolam digambar di area tengah &mdash; persis seperti ilustrasi di samping.</li>
+            <li><strong>Kode warna status.</strong> Kotak <span class="pill-type pill-color"><span class="color-swatch" style="background:#FF2B2B;"></span>merah</span> = lapak terisi, kotak <span class="pill-type pill-color"><span class="color-swatch" style="background:#00CC00;"></span>hijau</span> = lapak kosong. Nomor lapak ditulis putih di tengah kotak.</li>
+            <li><strong>Interaktif.</strong> Setiap kotak lapak yang digambar bisa diketuk; extension akan memicu event <code>LapakDiklik</code> dengan nomor lapak dan statusnya, cukup dengan meneruskan koordinat sentuhan dari <code>Canvas1.Touched</code>.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Rendering note -->
+      <section id="rendering-note" class="doc-section">
+        <div class="note-card">
+          <div class="note-title mb-2"><i class="fa-solid fa-triangle-exclamation me-1"></i> Catatan Penting Soal Teknik Rendering</div>
+          <p class="mb-2" style="font-size:.9rem; line-height:1.6;">
+            Komponen bawaan <code>Canvas</code> App Inventor tidak memiliki blok <code>DrawRect</code>. Field
+            <code>Paint</code> dan <code>android.graphics.Canvas</code> internal pada <code>CanvasView</code> bersifat
+            <strong>private</strong> &mdash; tidak ada getter publik untuk objek Canvas Android yang bisa digambar
+            langsung, dan mengaksesnya lewat reflection sangat rapuh karena nama field bisa berubah antar versi App Inventor.
+          </p>
+          <p class="mb-0" style="font-size:.9rem; line-height:1.6;">
+            Karena itu, LapakCanvasExtension sengaja hanya memakai blok publik yang sudah disediakan komponen
+            <code>Canvas</code>: <code>PaintColor</code>, <code>LineWidth</code>, <code>DrawLine</code>,
+            <code>DrawText</code>, <code>FontSize</code>, dan <code>TextAlignment</code> &mdash; setiap kotak lapak
+            disusun dari kombinasi garis-garis ini, bukan dari rect native.
+          </p>
+        </div>
+      </section>
+
+      <!-- Properties -->
+      <section id="properties" class="doc-section">
+        <div class="section-head">
+          <div class="icon-badge"><i class="fa-solid fa-sliders"></i></div>
+          <div>
+            <h2>Properties</h2>
+            <div class="count">9 properti</div>
+          </div>
+        </div>
+
+        <div class="card-member" id="LebarKotak">
+          <div class="sig"><span class="fn">LebarKotak</span> <span class="pill-type pill-number">number</span></div>
+          <p class="desc">Lebar tiap kotak lapak dalam pixel. Default: <code>60</code>.</p>
+        </div>
+
+        <div class="card-member" id="TinggiKotak">
+          <div class="sig"><span class="fn">TinggiKotak</span> <span class="pill-type pill-number">number</span></div>
+          <p class="desc">Tinggi tiap kotak lapak dalam pixel. Default: <code>60</code>.</p>
+        </div>
+
+        <div class="card-member" id="TebalBorder">
+          <div class="sig"><span class="fn">TebalBorder</span> <span class="pill-type pill-number">number</span></div>
+          <p class="desc">Ketebalan garis border kotak dalam pixel. Default: <code>2</code>.</p>
+        </div>
+
+        <div class="card-member" id="UkuranFont">
+          <div class="sig"><span class="fn">UkuranFont</span> <span class="pill-type pill-number">number</span></div>
+          <p class="desc">Ukuran font nomor lapak dalam pixel. Default: <code>14</code>.</p>
+        </div>
+
+        <div class="card-member" id="WarnaBorder">
+          <div class="sig"><span class="color-swatch" style="background:#000000;"></span><span class="fn">WarnaBorder</span> <span class="pill-type pill-color">color</span></div>
+          <p class="desc">Warna garis pembatas (border) tiap kotak lapak. Default: hitam.</p>
+        </div>
+
+        <div class="card-member" id="WarnaKolam">
+          <div class="sig"><span class="color-swatch" style="background:#00AEEF;"></span><span class="fn">WarnaKolam</span> <span class="pill-type pill-color">color</span></div>
+          <p class="desc">Warna kolam (area tengah antara kolom kiri &amp; kanan). Default: biru.</p>
+        </div>
+
+        <div class="card-member" id="WarnaKosong">
+          <div class="sig"><span class="color-swatch" style="background:#00CC00;"></span><span class="fn">WarnaKosong</span> <span class="pill-type pill-color">color</span></div>
+          <p class="desc">Warna kotak untuk lapak yang <strong>kosong</strong>. Default: hijau.</p>
+        </div>
+
+        <div class="card-member" id="WarnaTerisi">
+          <div class="sig"><span class="color-swatch" style="background:#FF0000;"></span><span class="fn">WarnaTerisi</span> <span class="pill-type pill-color">color</span></div>
+          <p class="desc">Warna kotak untuk lapak yang <strong>terisi</strong>. Default: merah.</p>
+        </div>
+
+        <div class="card-member" id="WarnaTeksNomor">
+          <div class="sig"><span class="color-swatch" style="background:#FFFFFF;border-color:#999;"></span><span class="fn">WarnaTeksNomor</span> <span class="pill-type pill-color">color</span></div>
+          <p class="desc">Warna teks nomor lapak. Default: putih.</p>
+        </div>
+      </section>
+
+      <!-- Events -->
+      <section id="events" class="doc-section">
+        <div class="section-head ev">
+          <div class="icon-badge"><i class="fa-solid fa-bolt"></i></div>
+          <div>
+            <h2>Events</h2>
+            <div class="count">3 event</div>
+          </div>
+        </div>
+
+        <div class="card-member" id="LapakRendered">
+          <div class="sig"><span class="fn">LapakRendered</span><span class="paren">(</span>jumlahLapak <span class="pill-type pill-number">number</span><span class="paren">)</span></div>
+          <p class="desc">Dipicu setiap kali denah selesai digambar otomatis. <code>jumlahLapak</code> = jumlah lapak yang baru saja digambar.</p>
+        </div>
+
+        <div class="card-member" id="LapakDiklik">
+          <div class="sig"><span class="fn">LapakDiklik</span><span class="paren">(</span>nomorLapak <span class="pill-type pill-number">number</span>, status <span class="pill-type pill-text">text</span><span class="paren">)</span></div>
+          <p class="desc">Dipicu otomatis saat pengguna mengetuk salah satu kotak lapak pada Canvas. <code>nomorLapak</code> = nomor lapak yang diketuk, <code>status</code> = <code>"Kosong"</code> atau <code>"Terisi"</code>.</p>
+        </div>
+
+        <div class="card-member" id="Error">
+          <div class="sig"><span class="fn">Error</span><span class="paren">(</span>method <span class="pill-type pill-text">text</span>, message <span class="pill-type pill-text">text</span><span class="paren">)</span></div>
+          <p class="desc">Dipicu jika terjadi kesalahan saat menggambar denah. <code>method</code> = nama blok yang gagal, <code>message</code> = pesan error.</p>
+        </div>
+      </section>
+
+      <!-- Methods -->
+      <section id="methods" class="doc-section">
+        <div class="section-head mt">
+          <div class="icon-badge"><i class="fa-solid fa-terminal"></i></div>
+          <div>
+            <h2>Methods</h2>
+            <div class="count">6 method</div>
+          </div>
+        </div>
+
+        <h5 class="mb-3" style="color:var(--teal);font-size:.85rem;text-transform:uppercase;letter-spacing:.5px;">Menggambar Denah</h5>
+
+        <div class="card-member" id="GambarDenahLapak">
+          <div class="sig"><span class="fn">GambarDenahLapak</span><span class="paren">(</span>canvasLapak <span class="pill-type pill-component">component</span>, jumlahLapak <span class="pill-type pill-number">number</span>, daftarLapakKosong <span class="pill-type pill-list">list</span><span class="paren">)</span></div>
+          <p class="desc">
+            Menggambar denah lapak ke komponen Canvas. <code>jumlahLapak</code> = total lapak (dari setting <code>jumlah_lapak</code>).
+            <code>daftarLapakKosong</code> harus berupa list-of-lists persis output <code>MancinginExtension.AmbilDaftarLapakKosong</code>,
+            misalnya <code>[[1],[3],[4],[7]]</code>. Lapak yang nomornya tidak ada di daftar ini otomatis digambar merah (terisi).
+          </p>
+        </div>
+
+        <div class="card-member" id="GambarDariMancingin">
+          <div class="sig"><span class="fn">GambarDariMancingin</span><span class="paren">(</span>canvasLapak <span class="pill-type pill-component">component</span>, hasilLapakKosong <span class="pill-type pill-list">list</span>, hasilSettingJumlah <span class="pill-type pill-list">list</span>, defaultJumlah <span class="pill-type pill-number">number</span><span class="paren">)</span></div>
+          <p class="desc">
+            Sama seperti <code>GambarDenahLapak</code>, tapi otomatis mem-parsing dua hasil mentah dari
+            <code>MancinginExtension</code> langsung: <code>hasilLapakKosong</code> (output <code>AmbilDaftarLapakKosong</code>,
+            mis. <code>[[1],[3],[4]]</code>) dan <code>hasilSettingJumlah</code> (hasil <code>SelectSQL</code> setting
+            <code>jumlah_lapak</code>, boleh berupa <code>[["50"]]</code> atau <code>[["jumlah_lapak","50"]]</code>).
+            <code>defaultJumlah</code> dipakai jika <code>hasilSettingJumlah</code> kosong atau gagal diparsing.
+          </p>
+        </div>
+
+        <h5 class="mt-4 mb-3" style="color:var(--teal);font-size:.85rem;text-transform:uppercase;letter-spacing:.5px;">Membaca Hasil Render</h5>
+
+        <div class="card-member" id="GetLapakInfo">
+          <div class="sig"><span class="fn">GetLapakInfo</span><span class="paren">(</span>x <span class="pill-type pill-number">number</span>, y <span class="pill-type pill-number">number</span><span class="paren">)</span><span class="badge-return">returns number</span></div>
+          <p class="desc">
+            Mengembalikan nomor lapak pada koordinat (x, y) hasil render terakhir. Panggil ini dari blok
+            <code>Canvas1.Touched(x, y, ...)</code>. Mengembalikan <code>0</code> jika koordinat berada di area
+            kolam / luar denah (tidak mengenai kotak lapak manapun).
+          </p>
+        </div>
+
+        <div class="card-member" id="GetStatusLapak">
+          <div class="sig"><span class="fn">GetStatusLapak</span><span class="paren">(</span>nomorLapak <span class="pill-type pill-number">number</span><span class="paren">)</span><span class="badge-return">returns text</span></div>
+          <p class="desc">
+            Mengembalikan status lapak hasil render terakhir: <code>"Kosong"</code>, <code>"Terisi"</code>, atau
+            string kosong <code>""</code> jika nomor lapak tidak ditemukan.
+          </p>
+        </div>
+
+        <div class="card-member" id="JumlahLapakEfektif">
+          <div class="sig"><span class="fn">JumlahLapakEfektif</span><span class="paren">()</span><span class="badge-return">returns number</span></div>
+          <p class="desc">Jumlah lapak efektif (setelah dibulatkan genap jika ganjil) dari render terakhir.</p>
+        </div>
+
+        <h5 class="mt-4 mb-3" style="color:var(--teal);font-size:.85rem;text-transform:uppercase;letter-spacing:.5px;">Reset</h5>
+
+        <div class="card-member" id="ClearCanvas">
+          <div class="sig"><span class="fn">ClearCanvas</span><span class="paren">(</span>canvasLapak <span class="pill-type pill-component">component</span><span class="paren">)</span></div>
+          <p class="desc">Menghapus seluruh gambar pada Canvas serta cache denah internal.</p>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</div>
+
+<footer class="py-4 mt-4">
+  <div class="container text-center">
+    <div class="mb-1"><img src="assets/logo.png" alt="Mancingin Extension Suite" style="height:16px;width:auto;vertical-align:-3px;" class="me-1"> LapakCanvasExtension &mdash; Non-visible Extension untuk MIT App Inventor</div>
+    <div class="opacity-75">Dihasilkan dari <code>extension.md</code> &middot; kategori: EXTENSION &middot; pendamping <code>MancinginExtension</code></div>
+  </div>
+</footer>
+
+<button id="backToTop" title="Kembali ke atas"><i class="fa-solid fa-arrow-up"></i></button>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+<script>
+  const backBtn = document.getElementById('backToTop');
+  window.addEventListener('scroll', () => { backBtn.style.display = window.scrollY > 400 ? 'block' : 'none'; });
+  backBtn.addEventListener('click', () => window.scrollTo({top:0, behavior:'smooth'}));
+</script>
+</body>
+</html>

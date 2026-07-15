@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MenuGalatama &mdash; Dokumentasi Extension MIT App Inventor</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --deep:#0b3d4c;
+    --teal:#0f7a8c;
+    --aqua:#1fb6b0;
+    --lure:#ff7a3d;
+    --sand:#f6f3ea;
+    --ink:#123138;
+    --line:#dfe6e2;
+  }
+  html{scroll-behavior:smooth;}
+  body{ font-family:'Inter',system-ui,sans-serif; color:var(--ink); background:var(--sand); }
+  h1,h2,h3,h4,.brand,.navpill{font-family:'Sora',sans-serif;}
+  code, .mono{font-family:'JetBrains Mono',monospace;}
+
+  .topbar{
+    background:linear-gradient(100deg,var(--deep) 0%,#0e5566 60%,var(--teal) 100%);
+    color:#eaf6f5; border-bottom:3px solid var(--lure);
+  }
+  .topbar .brand{font-weight:800;font-size:1.15rem;letter-spacing:.2px;}
+  .topbar .subtitle{font-size:.78rem;color:#bfe3df;letter-spacing:.5px;text-transform:uppercase;}
+  .badge-version{
+    background:rgba(255,122,61,.16); border:1px solid var(--lure); color:#ffd9c4;
+    font-family:'JetBrains Mono',monospace; font-size:.72rem;
+  }
+
+  .hero{
+    background:
+      radial-gradient(60% 100% at 85% 0%, rgba(31,182,176,.35), transparent 60%),
+      linear-gradient(180deg,var(--deep), #0d4e5f 100%);
+    color:#eaf6f5; position:relative; overflow:hidden; border-bottom:1px solid rgba(255,255,255,.08);
+  }
+  .hero .eyebrow{color:var(--lure); font-weight:600; letter-spacing:1.5px; font-size:.75rem; text-transform:uppercase;}
+  .hero h1{font-weight:800; font-size:2.3rem;}
+  .hero p.lead{color:#cfe8e5; font-size:1.02rem; max-width:600px;}
+  .stat-chip{background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.14); border-radius:10px; padding:.65rem .9rem;}
+  .stat-chip .num{font-family:'JetBrains Mono',monospace; font-weight:700; font-size:1.35rem; color:#ffd9c4;}
+  .stat-chip .lbl{font-size:.72rem; color:#bfe3df; text-transform:uppercase; letter-spacing:.5px;}
+
+  /* menu row mockup */
+  .diagram-card{ background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.16); border-radius:14px; padding:1rem; }
+  .menu-row{
+    display:flex; align-items:center; gap:.65rem; background:rgba(255,255,255,.06);
+    border:1px solid rgba(255,255,255,.14); border-radius:10px; padding:.55rem .7rem; margin-bottom:.5rem;
+  }
+  .menu-row:last-child{margin-bottom:0;}
+  .menu-thumb{
+    width:42px; height:42px; border-radius:8px; flex-shrink:0;
+    display:flex; align-items:center; justify-content:center; font-size:1.1rem; color:#eaf6f5;
+  }
+  .menu-info{flex:1; min-width:0;}
+  .menu-title{font-weight:600; font-size:.85rem; color:#eaf6f5;}
+  .menu-sub{font-size:.72rem; color:#a9cfca; font-family:'JetBrains Mono',monospace;}
+  .menu-qty{
+    display:flex; align-items:center; gap:.3rem; background:rgba(255,255,255,.1);
+    border-radius:6px; padding:.15rem .4rem; font-family:'JetBrains Mono',monospace; font-size:.78rem; color:#eaf6f5;
+  }
+  .menu-check{width:16px; height:16px; border-radius:4px; border:1.5px solid #cfe8e5; flex-shrink:0;}
+  .menu-check.on{background:var(--lure); border-color:var(--lure);}
+
+  .sidebar{ position:sticky; top:76px; max-height:calc(100vh - 96px); overflow-y:auto; padding-right:.5rem; }
+  .sidebar::-webkit-scrollbar{width:6px;}
+  .sidebar::-webkit-scrollbar-thumb{background:#c7d6d2;border-radius:6px;}
+  .toc-title{font-size:.72rem; text-transform:uppercase; letter-spacing:1px; color:#5c7a76; font-weight:700; margin:1.1rem 0 .4rem;}
+  .toc-title:first-child{margin-top:0;}
+  .nav-pills .nav-link{ color:var(--ink); font-size:.88rem; padding:.3rem .6rem; border-radius:7px; border-left:2px solid transparent; }
+  .nav-pills .nav-link.method-item{color:#4a615d; font-size:.82rem;}
+  .nav-pills .nav-link:hover{background:#e7f1ef;}
+  .nav-pills .nav-link.active{ background:rgba(31,182,176,.12); color:var(--deep); font-weight:600; border-left:2px solid var(--aqua); }
+
+  section.doc-section{scroll-margin-top:80px; margin-bottom:3rem;}
+  .section-head{ display:flex; align-items:center; gap:.6rem; margin-bottom:1rem; padding-bottom:.6rem; border-bottom:2px solid var(--line); }
+  .section-head .icon-badge{
+    width:36px; height:36px; border-radius:9px; display:flex; align-items:center; justify-content:center;
+    background:var(--deep); color:#bfe3df; font-size:.95rem; flex-shrink:0;
+  }
+  .section-head.ev .icon-badge{background:var(--lure); color:#3a1300;}
+  .section-head.mt .icon-badge{background:var(--aqua); color:#053331;}
+  .section-head h2{margin:0; font-size:1.4rem; font-weight:700; color:var(--deep);}
+  .section-head .count{font-size:.78rem; color:#6d8985; font-weight:500;}
+
+  .card-member{
+    background:#fff; border:1px solid var(--line); border-radius:12px;
+    padding:1.1rem 1.25rem; margin-bottom:.9rem; scroll-margin-top:80px;
+    transition:box-shadow .15s ease, border-color .15s ease;
+  }
+  .card-member:hover{box-shadow:0 4px 18px rgba(11,61,76,.08); border-color:#c3e0dc;}
+  .card-member .sig{ font-family:'JetBrains Mono',monospace; font-size:.92rem; color:var(--deep); font-weight:600; word-break:break-word; }
+  .card-member .sig .fn{color:var(--teal); font-weight:700;}
+  .card-member .sig .paren{color:#93a8a5;}
+  .card-member p.desc{margin:.55rem 0 0; font-size:.9rem; color:#37504d; line-height:1.55;}
+  .pill-type{ font-family:'JetBrains Mono',monospace; font-size:.68rem; padding:.15rem .5rem; border-radius:20px; border:1px solid; margin-left:.15rem; white-space:nowrap; }
+  .pill-text{color:#0f7a8c; border-color:#bfe3df; background:#eafaf8;}
+  .pill-number{color:#946200; border-color:#f0dcac; background:#fff8e8;}
+  .pill-boolean{color:#8a3ba8; border-color:#e6c9f0; background:#faf1fd;}
+  .pill-list{color:#c14e2f; border-color:#f3c6b4; background:#fff2ec;}
+  .pill-color{color:#b3006b; border-color:#f0b8d9; background:#fff0f8;}
+  .pill-component{color:#2a5da0; border-color:#c0d4ee; background:#eef4fd;}
+  .badge-return{ font-size:.68rem; font-weight:600; padding:.2rem .55rem; border-radius:6px; background:var(--deep); color:#dff3f1; margin-left:.4rem; }
+  .badge-wo{ font-size:.65rem; font-weight:600; padding:.15rem .5rem; border-radius:6px; background:#eef2f1; color:#5c7a76; margin-left:.3rem; border:1px solid var(--line); }
+  .color-swatch{ display:inline-block; width:14px; height:14px; border-radius:4px; vertical-align:-2px; border:1px solid rgba(0,0,0,.15); margin-right:.35rem; }
+
+  .intro-card{ background:#fff; border:1px solid var(--line); border-radius:14px; padding:1.5rem; }
+  .intro-card ul{margin-bottom:0;}
+  .intro-card li{margin-bottom:.55rem; font-size:.93rem; line-height:1.6;}
+
+  .note-card{ background:#fff8ec; border:1px solid #f0dcac; border-radius:12px; padding:1.1rem 1.25rem; }
+  .note-card .note-title{ color:#946200; font-weight:700; font-size:.85rem; text-transform:uppercase; letter-spacing:.4px; }
+  .note-card ul{margin-bottom:0; font-size:.9rem; line-height:1.6;}
+
+  footer{ background:var(--deep); color:#a9cfca; font-size:.85rem; }
+  .btn-lure{background:var(--lure); border-color:var(--lure); color:#fff;}
+  .btn-lure:hover{background:#e5652a; border-color:#e5652a; color:#fff;}
+  .back-index{color:#bfe3df; font-size:.85rem; text-decoration:none;}
+  .back-index:hover{color:#fff;}
+
+  /* ---------- Page switcher nav ---------- */
+  .pagenav{ background:#0e4a5c; border-bottom:1px solid rgba(255,255,255,.08); }
+  .pagenav-inner{ display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:.5rem; padding:.55rem 0; }
+  .pagenav-links{ display:flex; flex-wrap:wrap; gap:.4rem; }
+  .pagenav-link{
+    display:inline-flex; align-items:center; gap:.35rem; color:#bfe3df; font-size:.82rem; font-weight:600;
+    padding:.35rem .8rem; border-radius:20px; text-decoration:none; border:1px solid transparent;
+    transition:background .15s ease, color .15s ease, border-color .15s ease;
+  }
+  .pagenav-link:hover{ background:rgba(255,255,255,.1); color:#fff; }
+  .pagenav-link.active{ background:var(--lure); color:#fff; border-color:var(--lure); }
+  .pagenav-github{ background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.18); }
+  .pagenav-github:hover{ background:rgba(255,255,255,.16); color:#fff; }
+
+  /* ---------- Brand assets: logo & digital font ---------- */
+  @font-face{
+    font-family:'Seven Segment';
+    src:url('assets/SevenSegment.ttf') format('truetype');
+    font-weight:normal; font-style:normal; font-display:swap;
+  }
+  .brand-logo{ height:34px; width:auto; display:block; flex-shrink:0; }
+  .font-digital{ font-family:'Seven Segment','JetBrains Mono',monospace; letter-spacing:.5px; }
+
+  #backToTop{
+    position:fixed; bottom:24px; right:24px; z-index:999; display:none;
+    width:44px; height:44px; border-radius:50%; background:var(--teal); color:#fff; border:none;
+    box-shadow:0 6px 16px rgba(11,61,76,.35);
+  }
+</style>
+  <link rel="icon" type="image/png" href="assets/logo.png">
+</head>
+<body data-bs-spy="scroll" data-bs-target="#tocNav" data-bs-offset="100" tabindex="0">
+
+<!-- Topbar -->
+<nav class="navbar topbar sticky-top py-2">
+  <div class="container-fluid px-4">
+    <div class="d-flex align-items-center gap-2">
+      <img src="assets/logo.png" alt="Mancingin Extension Suite logo" class="brand-logo">
+      <div>
+        <div class="brand">MenuGalatama</div>
+        <div class="subtitle">Visible extension &middot; pendamping MancinginExtension</div>
+      </div>
+    </div>
+    <div class="d-flex align-items-center gap-2">
+      <span class="badge badge-version rounded-pill px-3 py-2"><i class="fa-solid fa-database me-1"></i> mancing.db</span>
+    </div>
+  </div>
+</nav>
+
+<!-- Page Switcher -->
+<div class="pagenav">
+  <div class="container-fluid px-4 pagenav-inner">
+        <div class="pagenav-links">
+          <a href="https://aos92.github.io/Mancingin-Extension-Mit-App-Invertor/" class="pagenav-link"><i class="fa-solid fa-house me-1"></i>Beranda</a>
+          <a href="https://aos92.github.io/Mancingin-Extension-Mit-App-Invertor/Mancingin.html" class="pagenav-link"><i class="fa-solid fa-fish-fins me-1"></i>Mancingin</a>
+          <a href="https://aos92.github.io/Mancingin-Extension-Mit-App-Invertor/LapakCanvas.html" class="pagenav-link"><i class="fa-solid fa-vector-square me-1"></i>LapakCanvas</a>
+          <a href="https://aos92.github.io/Mancingin-Extension-Mit-App-Invertor/MenuGalatama.html" class="pagenav-link active"><i class="fa-solid fa-bowl-food me-1"></i>MenuGalatama</a>
+          <a href="https://aos92.github.io/Mancingin-Extension-Mit-App-Invertor/TableGalatama.html" class="pagenav-link"><i class="fa-solid fa-table me-1"></i>TableGalatama</a>
+    </div>
+    <a href="https://github.com/aos92/Mancingin-Extension-Mit-App-Invertor" target="_blank" rel="noopener" class="pagenav-link pagenav-github"><i class="fa-brands fa-github me-1"></i>Repo GitHub</a>
+  </div>
+</div>
+
+
+<!-- Hero -->
+<header class="hero py-5">
+  <div class="container position-relative">
+    <div class="row align-items-center g-4">
+      <div class="col-lg-7">
+        <div class="eyebrow mb-2">Dokumentasi Komponen &middot; extension.md</div>
+        <h1>MenuGalatama</h1>
+        <p class="lead mt-2">
+          Mengelola menu kantin &amp; proses order pada aplikasi lomba mancing (galatama), memakai
+          berkas database yang sama dengan <strong>MancinginExtension</strong> (default:
+          <code>mancing.db</code>). Menggabungkan fungsi upload gambar menu, daftar menu bercentang
+          dengan qty, dan pemrosesan order dalam satu transaksi atomik.
+        </p>
+        <div class="d-flex gap-2 mt-3 flex-wrap">
+          <a href="#overview" class="btn btn-lure btn-sm px-3"><i class="fa-solid fa-book-open me-1"></i> Mulai Baca</a>
+          <a href="#methods" class="btn btn-outline-light btn-sm px-3">Lihat Semua Method</a>
+        </div>
+        <div class="row g-2 mt-3" style="max-width:420px;">
+          <div class="col-4"><div class="stat-chip text-center"><div class="num font-digital">9</div><div class="lbl">Properties</div></div></div>
+          <div class="col-4"><div class="stat-chip text-center"><div class="num font-digital">7</div><div class="lbl">Events</div></div></div>
+          <div class="col-4"><div class="stat-chip text-center"><div class="num font-digital">14</div><div class="lbl">Methods</div></div></div>
+        </div>
+      </div>
+
+      <!-- mockup illustrating a menu row with checkbox + qty -->
+      <div class="col-lg-5">
+        <div class="diagram-card">
+          <div class="menu-row">
+            <div class="menu-check on"></div>
+            <div class="menu-thumb" style="background:#c1502f;"><i class="fa-solid fa-drumstick-bite"></i></div>
+            <div class="menu-info">
+              <div class="menu-title">Ayam Bakar</div>
+              <div class="menu-sub">Rp 15.000 &middot; stok 24</div>
+            </div>
+            <div class="menu-qty"><i class="fa-solid fa-minus" style="font-size:.6rem;"></i> 2 <i class="fa-solid fa-plus" style="font-size:.6rem;"></i></div>
+          </div>
+          <div class="menu-row">
+            <div class="menu-check"></div>
+            <div class="menu-thumb" style="background:#2a7a5c;"><i class="fa-solid fa-mug-hot"></i></div>
+            <div class="menu-info">
+              <div class="menu-title">Kopi Hitam</div>
+              <div class="menu-sub">Rp 5.000 &middot; stok 40</div>
+            </div>
+            <div class="menu-qty">0</div>
+          </div>
+          <div class="menu-row">
+            <div class="menu-check on"></div>
+            <div class="menu-thumb" style="background:#a06a1f;"><i class="fa-solid fa-bowl-rice"></i></div>
+            <div class="menu-info">
+              <div class="menu-title">Nasi Timbel</div>
+              <div class="menu-sub">Rp 12.000 &middot; stok 10</div>
+            </div>
+            <div class="menu-qty"><i class="fa-solid fa-minus" style="font-size:.6rem;"></i> 1 <i class="fa-solid fa-plus" style="font-size:.6rem;"></i></div>
+          </div>
+          <div class="d-flex justify-content-between align-items-center mt-2" style="font-size:.78rem;color:#cfe8e5;">
+            <span>2 menu dipilih</span>
+            <span class="fw-bold" style="color:#ffd9c4;">Total: Rp 42.000</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="container-fluid px-4 mt-4">
+  <div class="row">
+
+    <!-- Sidebar TOC -->
+    <div class="col-lg-3 d-none d-lg-block">
+      <div class="sidebar">
+        <div class="nav flex-column nav-pills" id="tocNav">
+          <div class="toc-title">Pengantar</div>
+          <a class="nav-link" href="#overview">Ringkasan</a>
+          <a class="nav-link" href="#catatan">Catatan Penting</a>
+
+          <div class="toc-title">Properties</div>
+          <a class="nav-link method-item" href="#DatabaseName">DatabaseName</a>
+          <a class="nav-link method-item" href="#DebugToast">DebugToast</a>
+          <a class="nav-link method-item" href="#ImageFolderName">ImageFolderName</a>
+          <a class="nav-link method-item" href="#TitleColor">TitleColor</a>
+          <a class="nav-link method-item" href="#TitleFontSize">TitleFontSize</a>
+          <a class="nav-link method-item" href="#SubtitleColor">SubtitleColor</a>
+          <a class="nav-link method-item" href="#SubtitleFontSize">SubtitleFontSize</a>
+          <a class="nav-link method-item" href="#DividerColor">DividerColor</a>
+          <a class="nav-link method-item" href="#DividerHeight">DividerHeight</a>
+
+          <div class="toc-title">Events</div>
+          <a class="nav-link method-item" href="#DatabaseSiap">DatabaseSiap</a>
+          <a class="nav-link method-item" href="#DaftarMenuTermuat">DaftarMenuTermuat</a>
+          <a class="nav-link method-item" href="#MenuTersimpan">MenuTersimpan</a>
+          <a class="nav-link method-item" href="#MenuDiperbarui">MenuDiperbarui</a>
+          <a class="nav-link method-item" href="#MenuDihapus">MenuDihapus</a>
+          <a class="nav-link method-item" href="#OrderSelesai">OrderSelesai</a>
+          <a class="nav-link method-item" href="#Error">Error</a>
+
+          <div class="toc-title">Methods</div>
+          <a class="nav-link method-item" href="#AnchorTo">AnchorTo</a>
+          <a class="nav-link method-item" href="#BukaDatabase">BukaDatabase</a>
+          <a class="nav-link method-item" href="#MuatDaftarMenu">MuatDaftarMenu</a>
+          <a class="nav-link method-item" href="#GetDaftarMenu">GetDaftarMenu</a>
+          <a class="nav-link method-item" href="#SimpanMenuBaru">SimpanMenuBaru</a>
+          <a class="nav-link method-item" href="#UpdateMenu">UpdateMenu</a>
+          <a class="nav-link method-item" href="#HapusMenu">HapusMenu</a>
+          <a class="nav-link method-item" href="#SetPilihan">SetPilihan</a>
+          <a class="nav-link method-item" href="#KosongkanPilihan">KosongkanPilihan</a>
+          <a class="nav-link method-item" href="#JumlahMenuTerpilih">JumlahMenuTerpilih</a>
+          <a class="nav-link method-item" href="#TotalBelanjaSaatIni">TotalBelanjaSaatIni</a>
+          <a class="nav-link method-item" href="#ProsesOrderKeDB">ProsesOrderKeDB</a>
+          <a class="nav-link method-item" href="#IsDatabaseOpen">IsDatabaseOpen</a>
+          <a class="nav-link method-item" href="#TutupDatabase">TutupDatabase</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main content -->
+    <div class="col-lg-9">
+
+      <!-- Overview -->
+      <section id="overview" class="doc-section">
+        <div class="section-head">
+          <div class="icon-badge"><i class="fa-solid fa-circle-info"></i></div>
+          <div>
+            <h2>Ringkasan</h2>
+            <div class="count">Apa yang dilakukan extension ini</div>
+          </div>
+        </div>
+        <div class="intro-card">
+          <ul>
+            <li><strong>Rekonstruksi tiga komponen menjadi satu.</strong> MenuGalatama menggabungkan fungsi upload gambar menu (dulu ImageBB), daftar bergambar dengan checkbox &amp; qty (dulu ListViewImageText), serta tombol order &mdash; semuanya bekerja langsung di atas <code>mancing.db</code>.</li>
+            <li><strong>Simpan &amp; kelola menu.</strong> <code>SimpanMenuBaru()</code>, <code>UpdateMenu()</code>, dan <code>HapusMenu()</code> menyimpan gambar ke internal storage aplikasi dan meng-query tabel <code>menu_food</code>.</li>
+            <li><strong>Daftar menu yang stabil saat di-scroll.</strong> <code>MuatDaftarMenu()</code> menampilkan menu dengan CheckBox (pilih) dan EditText (qty) per baris memakai pola ViewHolder, sehingga input pengguna tidak ter-reset saat list di-scroll. Gunakan <code>AnchorTo()</code> untuk menempatkannya ke Arrangement.</li>
+            <li><strong>Order dalam satu transaksi atomik.</strong> <code>ProsesOrderKeDB()</code> memindai seluruh menu yang dicentang &amp; qty &gt; 0, lalu menyimpannya sebagai baris-baris baru pada tabel <code>transaksi</code> (kategori <code>"Kantin"</code>) dalam satu transaksi database.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Important notes -->
+      <section id="catatan" class="doc-section">
+        <div class="note-card">
+          <div class="note-title mb-2"><i class="fa-solid fa-triangle-exclamation me-1"></i> Catatan Penting</div>
+          <ul>
+            <li>Komponen ini <strong>tidak</strong> membuat ulang seluruh skema <code>mancing.db</code> &mdash; itu tugas <code>MancinginExtension</code>. Ia hanya memastikan tabel <code>menu_food</code> &amp; <code>transaksi</code> ada (<code>CREATE TABLE IF NOT EXISTS</code>), dan menambahkan kolom <code>gambar</code> pada <code>menu_food</code> bila belum ada (aman dipanggil berulang).</li>
+            <li>Sebaiknya letakkan <code>MancinginExtension</code> pada Screen yang sama, supaya trigger arus kas otomatis miliknya (<code>trg_auto_ledger_proses</code>) tetap tercatat saat <code>ProsesOrderKeDB()</code> dipanggil &mdash; kedua komponen memakai berkas <code>mancing.db</code> yang sama.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Properties -->
+      <section id="properties" class="doc-section">
+        <div class="section-head">
+          <div class="icon-badge"><i class="fa-solid fa-sliders"></i></div>
+          <div>
+            <h2>Properties</h2>
+            <div class="count">9 properti</div>
+          </div>
+        </div>
+
+        <div class="card-member" id="DatabaseName">
+          <div class="sig"><span class="fn">DatabaseName</span> <span class="pill-type pill-text">text</span></div>
+          <p class="desc">Nama berkas database yang dipakai &mdash; harus sama dengan <code>DatabaseName</code> pada <code>MancinginExtension</code> agar mengacu ke berkas yang sama. Default: <code>mancing.db</code>.</p>
+        </div>
+
+        <div class="card-member" id="DebugToast">
+          <div class="sig"><span class="fn">DebugToast</span> <span class="pill-type pill-boolean">boolean</span></div>
+          <p class="desc">Menampilkan pesan debug sebagai Toast. Default: <code>false</code>.</p>
+        </div>
+
+        <div class="card-member" id="ImageFolderName">
+          <div class="sig"><span class="fn">ImageFolderName</span> <span class="pill-type pill-text">text</span></div>
+          <p class="desc">Nama folder (di internal storage aplikasi) tempat gambar menu disimpan. Default: <code>menu_images</code>.</p>
+        </div>
+
+        <div class="card-member" id="TitleColor">
+          <div class="sig"><span class="fn">TitleColor</span> <span class="pill-type pill-color">number (color)</span><span class="badge-wo">write-only</span></div>
+          <p class="desc">Warna teks nama menu.</p>
+        </div>
+
+        <div class="card-member" id="TitleFontSize">
+          <div class="sig"><span class="fn">TitleFontSize</span> <span class="pill-type pill-number">number</span><span class="badge-wo">write-only</span></div>
+          <p class="desc">Ukuran teks nama menu, dalam sp.</p>
+        </div>
+
+        <div class="card-member" id="SubtitleColor">
+          <div class="sig"><span class="fn">SubtitleColor</span> <span class="pill-type pill-color">number (color)</span><span class="badge-wo">write-only</span></div>
+          <p class="desc">Warna teks harga/subjudul menu.</p>
+        </div>
+
+        <div class="card-member" id="SubtitleFontSize">
+          <div class="sig"><span class="fn">SubtitleFontSize</span> <span class="pill-type pill-number">number</span><span class="badge-wo">write-only</span></div>
+          <p class="desc">Ukuran teks harga/subjudul menu, dalam sp.</p>
+        </div>
+
+        <div class="card-member" id="DividerColor">
+          <div class="sig"><span class="fn">DividerColor</span> <span class="pill-type pill-color">number (color)</span><span class="badge-wo">write-only</span></div>
+          <p class="desc">Warna garis pembatas antar baris menu.</p>
+        </div>
+
+        <div class="card-member" id="DividerHeight">
+          <div class="sig"><span class="fn">DividerHeight</span> <span class="pill-type pill-number">number</span><span class="badge-wo">write-only</span></div>
+          <p class="desc">Tinggi garis pembatas antar baris menu, dalam piksel.</p>
+        </div>
+      </section>
+
+      <!-- Events -->
+      <section id="events" class="doc-section">
+        <div class="section-head ev">
+          <div class="icon-badge"><i class="fa-solid fa-bolt"></i></div>
+          <div>
+            <h2>Events</h2>
+            <div class="count">7 event</div>
+          </div>
+        </div>
+
+        <div class="card-member" id="DatabaseSiap">
+          <div class="sig"><span class="fn">DatabaseSiap</span><span class="paren">()</span></div>
+          <p class="desc">Dipicu setelah database &amp; tabel <code>menu_food</code>/<code>transaksi</code> siap digunakan.</p>
+        </div>
+
+        <div class="card-member" id="DaftarMenuTermuat">
+          <div class="sig"><span class="fn">DaftarMenuTermuat</span><span class="paren">(</span>jumlahMenu <span class="pill-type pill-number">number</span><span class="paren">)</span></div>
+          <p class="desc">Dipicu setelah daftar menu selesai dimuat ulang dari database.</p>
+        </div>
+
+        <div class="card-member" id="MenuTersimpan">
+          <div class="sig"><span class="fn">MenuTersimpan</span><span class="paren">(</span>idMenu <span class="pill-type pill-number">number</span>, pathGambar <span class="pill-type pill-text">text</span><span class="paren">)</span></div>
+          <p class="desc">Dipicu setelah menu baru berhasil disimpan. <code>idMenu</code> = ID baris baru pada <code>menu_food</code>, <code>pathGambar</code> = lokasi gambar tersimpan (kosong jika menu tidak memiliki gambar).</p>
+        </div>
+
+        <div class="card-member" id="MenuDiperbarui">
+          <div class="sig"><span class="fn">MenuDiperbarui</span><span class="paren">(</span>idMenu <span class="pill-type pill-number">number</span>, sukses <span class="pill-type pill-boolean">boolean</span><span class="paren">)</span></div>
+          <p class="desc">Dipicu setelah data menu diperbarui (<code>UpdateMenu</code>). <code>sukses</code> = true/false.</p>
+        </div>
+
+        <div class="card-member" id="MenuDihapus">
+          <div class="sig"><span class="fn">MenuDihapus</span><span class="paren">(</span>idMenu <span class="pill-type pill-number">number</span>, sukses <span class="pill-type pill-boolean">boolean</span><span class="paren">)</span></div>
+          <p class="desc">Dipicu setelah menu dihapus (<code>HapusMenu</code>). <code>sukses</code> = true/false.</p>
+        </div>
+
+        <div class="card-member" id="OrderSelesai">
+          <div class="sig"><span class="fn">OrderSelesai</span><span class="paren">(</span>sukses <span class="pill-type pill-boolean">boolean</span>, pesan <span class="pill-type pill-text">text</span>, jumlahItem <span class="pill-type pill-number">number</span>, totalBelanja <span class="pill-type pill-number">number</span><span class="paren">)</span></div>
+          <p class="desc">Dipicu setelah <code>ProsesOrderKeDB()</code> selesai. <code>sukses</code> = true/false, <code>pesan</code> = keterangan hasil, <code>jumlahItem</code> = total qty yang tercatat, <code>totalBelanja</code> = total nilai rupiah yang tersimpan ke tabel <code>transaksi</code>.</p>
+        </div>
+
+        <div class="card-member" id="Error">
+          <div class="sig"><span class="fn">Error</span><span class="paren">(</span>method <span class="pill-type pill-text">text</span>, pesan <span class="pill-type pill-text">text</span><span class="paren">)</span></div>
+          <p class="desc">Dipicu bila terjadi kesalahan pada operasi database/berkas gambar. <code>method</code> = nama fungsi yang gagal, <code>pesan</code> = detail error.</p>
+        </div>
+      </section>
+
+      <!-- Methods -->
+      <section id="methods" class="doc-section">
+        <div class="section-head mt">
+          <div class="icon-badge"><i class="fa-solid fa-terminal"></i></div>
+          <div>
+            <h2>Methods</h2>
+            <div class="count">14 method</div>
+          </div>
+        </div>
+
+        <h5 class="mb-3" style="color:var(--teal);font-size:.85rem;text-transform:uppercase;letter-spacing:.5px;">Setup &amp; Tampilan</h5>
+
+        <div class="card-member" id="AnchorTo">
+          <div class="sig"><span class="fn">AnchorTo</span><span class="paren">(</span>arrangement <span class="pill-type pill-component">component</span><span class="paren">)</span></div>
+          <p class="desc">Menempatkan tampilan daftar menu ke dalam Arrangement yang dituju.</p>
+        </div>
+
+        <div class="card-member" id="BukaDatabase">
+          <div class="sig"><span class="fn">BukaDatabase</span><span class="paren">()</span></div>
+          <p class="desc">Membuka (atau membuat jika belum ada) berkas database, dan memastikan tabel <code>menu_food</code> &amp; <code>transaksi</code> tersedia. Dipanggil otomatis saat komponen diinisialisasi.</p>
+        </div>
+
+        <div class="card-member" id="MuatDaftarMenu">
+          <div class="sig"><span class="fn">MuatDaftarMenu</span><span class="paren">()</span></div>
+          <p class="desc">Memuat ulang daftar menu dari tabel <code>menu_food</code> ke tampilan list. Status checkbox &amp; qty yang sudah diisi pengguna sebelumnya (untuk menu yang sama) akan tetap dipertahankan.</p>
+        </div>
+
+        <div class="card-member" id="GetDaftarMenu">
+          <div class="sig"><span class="fn">GetDaftarMenu</span><span class="paren">()</span><span class="badge-return">returns list</span></div>
+          <p class="desc">Mengembalikan seluruh daftar menu yang sedang tampil sebagai List of Lists: <code>[id, nama_menu, harga, kategori, stok, path_gambar]</code>.</p>
+        </div>
+
+        <h5 class="mt-4 mb-3" style="color:var(--teal);font-size:.85rem;text-transform:uppercase;letter-spacing:.5px;">Kelola Menu</h5>
+
+        <div class="card-member" id="SimpanMenuBaru">
+          <div class="sig"><span class="fn">SimpanMenuBaru</span><span class="paren">(</span>imageSourcePath <span class="pill-type pill-text">text</span>, namaMenu <span class="pill-type pill-text">text</span>, harga <span class="pill-type pill-number">number</span>, kategori <span class="pill-type pill-text">text</span>, stok <span class="pill-type pill-number">number</span><span class="paren">)</span></div>
+          <p class="desc">Menyimpan gambar menu baru ke penyimpanan internal aplikasi (folder <code>menu_images</code>) dan menambahkan datanya (nama, harga, kategori, stok) ke tabel <code>menu_food</code>. <code>imageSourcePath</code> boleh dikosongkan (<code>""</code>) jika menu tidak memiliki gambar; diisi dari path hasil Camera/ImagePicker.</p>
+        </div>
+
+        <div class="card-member" id="UpdateMenu">
+          <div class="sig"><span class="fn">UpdateMenu</span><span class="paren">(</span>idMenu <span class="pill-type pill-number">number</span>, imageSourcePath <span class="pill-type pill-text">text</span>, namaMenu <span class="pill-type pill-text">text</span>, harga <span class="pill-type pill-number">number</span>, kategori <span class="pill-type pill-text">text</span>, stok <span class="pill-type pill-number">number</span><span class="paren">)</span></div>
+          <p class="desc">Memperbarui data menu yang sudah ada (<code>idMenu</code>). Kosongkan <code>imageSourcePath</code> (<code>""</code>) jika tidak ingin mengganti gambar yang sudah tersimpan.</p>
+        </div>
+
+        <div class="card-member" id="HapusMenu">
+          <div class="sig"><span class="fn">HapusMenu</span><span class="paren">(</span>idMenu <span class="pill-type pill-number">number</span><span class="paren">)</span></div>
+          <p class="desc">Menghapus satu menu dari database berdasarkan <code>id_menu</code>. Berkas gambar di penyimpanan internal tidak ikut dihapus otomatis.</p>
+        </div>
+
+        <h5 class="mt-4 mb-3" style="color:var(--teal);font-size:.85rem;text-transform:uppercase;letter-spacing:.5px;">Pilihan &amp; Qty</h5>
+
+        <div class="card-member" id="SetPilihan">
+          <div class="sig"><span class="fn">SetPilihan</span><span class="paren">(</span>position <span class="pill-type pill-number">number</span>, checked <span class="pill-type pill-boolean">boolean</span>, qty <span class="pill-type pill-number">number</span><span class="paren">)</span></div>
+          <p class="desc">Mengatur status centang &amp; jumlah qty pada posisi tertentu secara terprogram (<code>position</code> dimulai dari 1, mengikuti konvensi ListView bawaan App Inventor).</p>
+        </div>
+
+        <div class="card-member" id="KosongkanPilihan">
+          <div class="sig"><span class="fn">KosongkanPilihan</span><span class="paren">()</span></div>
+          <p class="desc">Mengosongkan seluruh pilihan (uncheck semua checkbox &amp; qty menjadi 0) tanpa menghapus data menu dari daftar.</p>
+        </div>
+
+        <div class="card-member" id="JumlahMenuTerpilih">
+          <div class="sig"><span class="fn">JumlahMenuTerpilih</span><span class="paren">()</span><span class="badge-return">returns number</span></div>
+          <p class="desc">Mengembalikan jumlah menu yang saat ini dicentang &amp; memiliki qty &gt; 0.</p>
+        </div>
+
+        <div class="card-member" id="TotalBelanjaSaatIni">
+          <div class="sig"><span class="fn">TotalBelanjaSaatIni</span><span class="paren">()</span><span class="badge-return">returns number</span></div>
+          <p class="desc">Menghitung total belanja (harga &times; qty) dari seluruh menu yang saat ini dicentang, tanpa menyimpan apa pun ke database. Berguna untuk pratinjau di UI.</p>
+        </div>
+
+        <h5 class="mt-4 mb-3" style="color:var(--teal);font-size:.85rem;text-transform:uppercase;letter-spacing:.5px;">Order &amp; Koneksi Database</h5>
+
+        <div class="card-member" id="ProsesOrderKeDB">
+          <div class="sig"><span class="fn">ProsesOrderKeDB</span><span class="paren">(</span>idLomba <span class="pill-type pill-number">number</span>, idPeserta <span class="pill-type pill-number">number</span>, keteranganTambahan <span class="pill-type pill-text">text</span><span class="paren">)</span></div>
+          <p class="desc">Memindai seluruh menu yang dicentang &amp; memiliki qty &gt; 0, lalu menyimpannya sebagai baris-baris baru pada tabel <code>transaksi</code> (kategori <code>"Kantin"</code>) dalam satu transaksi database. Event <code>OrderSelesai()</code> dipicu setelah proses selesai.</p>
+        </div>
+
+        <div class="card-member" id="IsDatabaseOpen">
+          <div class="sig"><span class="fn">IsDatabaseOpen</span><span class="paren">()</span><span class="badge-return">returns boolean</span></div>
+          <p class="desc">Mengembalikan true jika database sedang terbuka.</p>
+        </div>
+
+        <div class="card-member" id="TutupDatabase">
+          <div class="sig"><span class="fn">TutupDatabase</span><span class="paren">()</span></div>
+          <p class="desc">Menutup koneksi database.</p>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</div>
+
+<footer class="py-4 mt-4">
+  <div class="container text-center">
+    <div class="mb-1"><img src="assets/logo.png" alt="Mancingin Extension Suite" style="height:16px;width:auto;vertical-align:-3px;" class="me-1"> MenuGalatama &mdash; Extension untuk MIT App Inventor</div>
+    <div class="opacity-75">Dihasilkan dari <code>extension.md</code> &middot; kategori: EXTENSION &middot; berbagi <code>mancing.db</code> dengan <code>MancinginExtension</code></div>
+  </div>
+</footer>
+
+<button id="backToTop" title="Kembali ke atas"><i class="fa-solid fa-arrow-up"></i></button>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+<script>
+  const backBtn = document.getElementById('backToTop');
+  window.addEventListener('scroll', () => { backBtn.style.display = window.scrollY > 400 ? 'block' : 'none'; });
+  backBtn.addEventListener('click', () => window.scrollTo({top:0, behavior:'smooth'}));
+</script>
+</body>
+</html>

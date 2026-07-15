@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mancingan Suite &mdash; Dokumentasi MIT App Inventor</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="assets/logo.png">
+<style>
+  :root{
+    --deep:#0b3d4c;
+    --teal:#0f7a8c;
+    --aqua:#1fb6b0;
+    --lure:#ff7a3d;
+    --sand:#f6f3ea;
+    --ink:#123138;
+    --line:#dfe6e2;
+  }
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Inter',system-ui,sans-serif;
+    color:var(--ink);
+    background:var(--sand);
+  }
+  h1,h2,h3,h4,.brand,.navpill{font-family:'Sora',sans-serif;}
+  code,.mono{font-family:'JetBrains Mono',monospace;}
+
+  /* ---------- Topbar ---------- */
+  .topbar{
+    background:linear-gradient(100deg,var(--deep) 0%,#0e5566 60%,var(--teal) 100%);
+    color:#eaf6f5;
+    border-bottom:3px solid var(--lure);
+  }
+  .topbar .brand{font-weight:800;font-size:1.15rem;letter-spacing:.2px;}
+  .topbar .subtitle{font-size:.78rem;color:#bfe3df;letter-spacing:.5px;text-transform:uppercase;}
+  .badge-version{
+    background:rgba(255,122,61,.16);
+    border:1px solid var(--lure);
+    color:#ffd9c4;
+    font-family:'JetBrains Mono',monospace;
+    font-size:.72rem;
+  }
+
+  /* ---------- Page switcher nav ---------- */
+  .pagenav{ background:#0e4a5c; border-bottom:1px solid rgba(255,255,255,.08); }
+  .pagenav-inner{ display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:.5rem; padding:.55rem 0; }
+  .pagenav-links{ display:flex; flex-wrap:wrap; gap:.4rem; }
+  .pagenav-link{
+    display:inline-flex; align-items:center; gap:.35rem; color:#bfe3df; font-size:.82rem; font-weight:600;
+    padding:.35rem .8rem; border-radius:20px; text-decoration:none; border:1px solid transparent;
+    transition:background .15s ease, color .15s ease, border-color .15s ease;
+  }
+  .pagenav-link:hover{ background:rgba(255,255,255,.1); color:#fff; }
+  .pagenav-link.active{ background:var(--lure); color:#fff; border-color:var(--lure); }
+  .pagenav-github{ background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.18); }
+  .pagenav-github:hover{ background:rgba(255,255,255,.16); color:#fff; }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    background:
+      radial-gradient(60% 100% at 85% 0%, rgba(31,182,176,.35), transparent 60%),
+      linear-gradient(180deg,var(--deep), #0d4e5f 100%);
+    color:#eaf6f5;
+    position:relative;
+    overflow:hidden;
+    border-bottom:1px solid rgba(255,255,255,.08);
+  }
+  .hero .ripple{
+    position:absolute; inset:0; opacity:.15; pointer-events:none;
+    background-image:
+      repeating-radial-gradient(circle at 90% 20%, transparent 0, transparent 18px, rgba(255,255,255,.5) 19px, transparent 20px);
+  }
+  .hero .eyebrow{
+    color:var(--lure); font-weight:600; letter-spacing:1.5px; font-size:.75rem; text-transform:uppercase;
+  }
+  .hero h1{font-weight:800; font-size:2.4rem;}
+  .hero p.lead{color:#cfe8e5; font-size:1.02rem; max-width:640px;}
+
+  /* ---------- Module Cards ---------- */
+  .card-module{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:1.75rem 1.5rem;
+    height:100%;
+    transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+    text-decoration:none;
+    display:flex;
+    flex-direction:column;
+  }
+  .card-module:hover{
+    transform:translateY(-5px);
+    box-shadow:0 10px 28px rgba(11,61,76,.12);
+    border-color:#c3e0dc;
+    text-decoration:none;
+  }
+  .card-module .mod-icon{
+    width:52px; height:52px; border-radius:14px;
+    display:flex; align-items:center; justify-content:center;
+    font-size:1.4rem;
+    background:var(--deep); color:#bfe3df;
+    margin-bottom:1rem; flex-shrink:0;
+  }
+  .card-module h3{font-weight:700; color:var(--deep); font-size:1.15rem; margin-bottom:.4rem;}
+  .card-module p{font-size:.88rem; color:#37504d; line-height:1.55; flex-grow:1; margin:0;}
+  .card-module .mod-footer{
+    margin-top:1.2rem;
+    font-size:.8rem;
+    font-weight:600;
+    color:var(--lure);
+    display:flex; align-items:center; gap:.35rem;
+  }
+  .card-module:hover .mod-footer{color:#e5652a;}
+
+  .mod-icon.fish{background:var(--deep);}
+  .mod-icon.canvas{background:#1a5e6e;}
+  .mod-icon.menu{background:#2c5c40;}
+  .mod-icon.table{background:#4a3860;}
+
+  /* ---------- Stats strip ---------- */
+  .stat-strip{
+    background:rgba(255,255,255,.06);
+    border:1px solid rgba(255,255,255,.12);
+    border-radius:10px;
+    padding:.65rem .9rem;
+    text-align:center;
+  }
+  .stat-strip .num{font-family:'JetBrains Mono',monospace; font-weight:700; font-size:1.35rem; color:#ffd9c4;}
+  .stat-strip .lbl{font-size:.72rem; color:#bfe3df; text-transform:uppercase; letter-spacing:.5px;}
+
+  /* ---------- Section label ---------- */
+  .section-label{
+    font-size:.72rem; text-transform:uppercase; letter-spacing:1px;
+    color:#5c7a76; font-weight:700; margin-bottom:1.25rem;
+  }
+
+  /* ---------- Font ---------- */
+  @font-face{
+    font-family:'Seven Segment';
+    src:url('assets/SevenSegment.ttf') format('truetype');
+    font-weight:normal; font-style:normal; font-display:swap;
+  }
+  .brand-logo{ height:34px; width:auto; display:block; flex-shrink:0; }
+  .font-digital{ font-family:'Seven Segment','JetBrains Mono',monospace; letter-spacing:.5px; }
+
+  footer{background:var(--deep); color:#a9cfca; font-size:.85rem;}
+
+  #backToTop{
+    position:fixed; bottom:24px; right:24px; z-index:999; display:none;
+    width:44px; height:44px; border-radius:50%; background:var(--teal); color:#fff; border:none;
+    box-shadow:0 6px 16px rgba(11,61,76,.35);
+  }
+</style>
+</head>
+<body>
+
+<!-- Topbar -->
+<nav class="navbar topbar sticky-top py-2">
+  <div class="container-fluid px-4">
+    <div class="d-flex align-items-center gap-2">
+      <img src="assets/logo.png" alt="Mancingan Suite logo" class="brand-logo">
+      <div>
+        <div class="brand">Mancingan Suite</div>
+        <div class="subtitle">Dokumentasi Extension &middot; MIT App Inventor</div>
+      </div>
+    </div>
+    <div class="d-flex align-items-center gap-2">
+      <span class="badge badge-version rounded-pill px-3 py-2"><i class="fa-solid fa-cubes me-1"></i> 4 Extension</span>
+    </div>
+  </div>
+</nav>
+
+<!-- Page Switcher -->
+<div class="pagenav">
+  <div class="container-fluid px-4 pagenav-inner">
+    <div class="pagenav-links">
+      <a href="https://aos92.github.io/Mancingin-Extension-Mit-App-Invertor/" class="pagenav-link active"><i class="fa-solid fa-house me-1"></i>Beranda</a>
+      <a href="https://aos92.github.io/Mancingin-Extension-Mit-App-Invertor/Mancingin.html" class="pagenav-link"><i class="fa-solid fa-fish-fins me-1"></i>Mancingin</a>
+      <a href="https://aos92.github.io/Mancingin-Extension-Mit-App-Invertor/LapakCanvas.html" class="pagenav-link"><i class="fa-solid fa-vector-square me-1"></i>LapakCanvas</a>
+      <a href="https://aos92.github.io/Mancingin-Extension-Mit-App-Invertor/MenuGalatama.html" class="pagenav-link"><i class="fa-solid fa-bowl-food me-1"></i>MenuGalatama</a>
+      <a href="https://aos92.github.io/Mancingin-Extension-Mit-App-Invertor/TableGalatama.html" class="pagenav-link"><i class="fa-solid fa-table me-1"></i>TableGalatama</a>
+    </div>
+    <a href="https://github.com/aos92/Mancingin-Extension-Mit-App-Invertor" target="_blank" rel="noopener" class="pagenav-link pagenav-github"><i class="fa-brands fa-github me-1"></i>Repo GitHub</a>
+  </div>
+</div>
+
+<!-- Hero -->
+<header class="hero py-5">
+  <div class="ripple"></div>
+  <div class="container position-relative">
+    <div class="row align-items-center">
+      <div class="col-lg-8">
+        <div class="eyebrow mb-2">Dokumentasi Resmi &middot; MIT App Inventor Extensions</div>
+        <h1>Mancingan Suite</h1>
+        <p class="lead mt-2">
+          Kumpulan extension MIT App Inventor yang dirancang khusus untuk membangun aplikasi
+          manajemen lomba mancing (galatama) &mdash; dari database SQLite, renderer denah lapak,
+          manajemen menu kantin, hingga komponen tabel data dinamis.
+        </p>
+      </div>
+      <div class="col-lg-4 mt-4 mt-lg-0">
+        <div class="row g-2">
+          <div class="col-6"><div class="stat-strip"><div class="num font-digital">4</div><div class="lbl">Extension</div></div></div>
+          <div class="col-6"><div class="stat-strip"><div class="num font-digital">53</div><div class="lbl">Methods</div></div></div>
+          <div class="col-6"><div class="stat-strip"><div class="num font-digital">21</div><div class="lbl">Events</div></div></div>
+          <div class="col-6"><div class="stat-strip"><div class="num font-digital">10</div><div class="lbl">Properties</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Module Cards -->
+<div class="container py-5">
+  <div class="section-label">Pilih Extension</div>
+  <div class="row g-4">
+
+    <!-- Mancingin -->
+    <div class="col-md-6 col-lg-3">
+      <a href="https://aos92.github.io/Mancingin-Extension-Mit-App-Invertor/Mancingin.html" class="card-module">
+        <div class="mod-icon fish"><i class="fa-solid fa-fish-fins"></i></div>
+        <h3>Mancingin</h3>
+        <p>Core engine SQLite untuk manajemen perlombaan galatama. Mencakup CRUD generik, transaksi, klasemen live, buku kas, dan blok domain lomba mancing tingkat tinggi.</p>
+        <div class="mod-footer"><i class="fa-solid fa-arrow-right"></i> Buka Dokumentasi</div>
+      </a>
+    </div>
+
+    <!-- LapakCanvas -->
+    <div class="col-md-6 col-lg-3">
+      <a href="https://aos92.github.io/Mancingin-Extension-Mit-App-Invertor/LapakCanvas.html" class="card-module">
+        <div class="mod-icon canvas"><i class="fa-solid fa-vector-square"></i></div>
+        <h3>LapakCanvas</h3>
+        <p>Renderer denah lapak kolam berbasis Canvas. Menampilkan posisi lapak dengan status kosong/terisi secara visual, lengkap dengan interaksi klik per lapak.</p>
+        <div class="mod-footer"><i class="fa-solid fa-arrow-right"></i> Buka Dokumentasi</div>
+      </a>
+    </div>
+
+    <!-- MenuGalatama -->
+    <div class="col-md-6 col-lg-3">
+      <a href="https://aos92.github.io/Mancingin-Extension-Mit-App-Invertor/MenuGalatama.html" class="card-module">
+        <div class="mod-icon menu"><i class="fa-solid fa-bowl-food"></i></div>
+        <h3>MenuGalatama</h3>
+        <p>Manajemen item kantin dan transaksi makanan selama lomba. Mendukung operasi CRUD menu, pemilihan item, dan integrasi langsung dengan database galatama.</p>
+        <div class="mod-footer"><i class="fa-solid fa-arrow-right"></i> Buka Dokumentasi</div>
+      </a>
+    </div>
+
+    <!-- TableGalatama -->
+    <div class="col-md-6 col-lg-3">
+      <a href="https://aos92.github.io/Mancingin-Extension-Mit-App-Invertor/TableGalatama.html" class="card-module">
+        <div class="mod-icon table"><i class="fa-solid fa-table"></i></div>
+        <h3>TableGalatama</h3>
+        <p>Auto-renderer tabel data hasil query database dengan tampilan yang bisa dikustomisasi. Cocok untuk menampilkan klasemen, daftar peserta, dan laporan transaksi.</p>
+        <div class="mod-footer"><i class="fa-solid fa-arrow-right"></i> Buka Dokumentasi</div>
+      </a>
+    </div>
+
+  </div>
+</div>
+
+<footer class="py-4 mt-2">
+  <div class="container text-center">
+    <div class="mb-1"><img src="assets/logo.png" alt="Mancingan Suite" style="height:16px;width:auto;vertical-align:-3px;" class="me-1"> Mancingan Suite &mdash; Extension untuk MIT App Inventor</div>
+    <div class="opacity-75">Dokumentasi resmi &middot; <a href="https://github.com/aos92/Mancingin-Extension-Mit-App-Invertor" class="text-decoration-none" style="color:#a9cfca;">GitHub Repository</a></div>
+  </div>
+</footer>
+
+<button id="backToTop" title="Kembali ke atas"><i class="fa-solid fa-arrow-up"></i></button>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+<script>
+  const backBtn = document.getElementById('backToTop');
+  window.addEventListener('scroll', () => {
+    backBtn.style.display = window.scrollY > 400 ? 'block' : 'none';
+  });
+  backBtn.addEventListener('click', () => window.scrollTo({top:0, behavior:'smooth'}));
+</script>
+</body>
+</html>

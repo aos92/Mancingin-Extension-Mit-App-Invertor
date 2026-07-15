@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TableGalatama &mdash; Dokumentasi Extension MIT App Inventor</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --deep:#0b3d4c;
+    --teal:#0f7a8c;
+    --aqua:#1fb6b0;
+    --lure:#ff7a3d;
+    --sand:#f6f3ea;
+    --ink:#123138;
+    --line:#dfe6e2;
+  }
+  html{scroll-behavior:smooth;}
+  body{ font-family:'Inter',system-ui,sans-serif; color:var(--ink); background:var(--sand); }
+  h1,h2,h3,h4,.brand,.navpill{font-family:'Sora',sans-serif;}
+  code, .mono{font-family:'JetBrains Mono',monospace;}
+
+  .topbar{
+    background:linear-gradient(100deg,var(--deep) 0%,#0e5566 60%,var(--teal) 100%);
+    color:#eaf6f5; border-bottom:3px solid var(--lure);
+  }
+  .topbar .brand{font-weight:800;font-size:1.15rem;letter-spacing:.2px;}
+  .topbar .subtitle{font-size:.78rem;color:#bfe3df;letter-spacing:.5px;text-transform:uppercase;}
+  .badge-version{
+    background:rgba(255,122,61,.16); border:1px solid var(--lure); color:#ffd9c4;
+    font-family:'JetBrains Mono',monospace; font-size:.72rem;
+  }
+
+  .hero{
+    background:
+      radial-gradient(60% 100% at 85% 0%, rgba(31,182,176,.35), transparent 60%),
+      linear-gradient(180deg,var(--deep), #0d4e5f 100%);
+    color:#eaf6f5; position:relative; overflow:hidden; border-bottom:1px solid rgba(255,255,255,.08);
+  }
+  .hero .eyebrow{color:var(--lure); font-weight:600; letter-spacing:1.5px; font-size:.75rem; text-transform:uppercase;}
+  .hero h1{font-weight:800; font-size:2.3rem;}
+  .hero p.lead{color:#cfe8e5; font-size:1.02rem; max-width:600px;}
+  .stat-chip{background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.14); border-radius:10px; padding:.65rem .9rem;}
+  .stat-chip .num{font-family:'JetBrains Mono',monospace; font-weight:700; font-size:1.35rem; color:#ffd9c4;}
+  .stat-chip .lbl{font-size:.72rem; color:#bfe3df; text-transform:uppercase; letter-spacing:.5px;}
+
+  /* table mockup */
+  .diagram-card{ background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.16); border-radius:14px; padding:1rem; }
+  .tbl-mock{ width:100%; border-collapse:separate; border-spacing:0; font-family:'JetBrains Mono',monospace; font-size:.72rem; border-radius:8px; overflow:hidden; }
+  .tbl-mock th{ background:#1565c0; color:#fff; font-weight:700; padding:.45rem .5rem; text-align:left; }
+  .tbl-mock td{ padding:.4rem .5rem; color:#123138; }
+  .tbl-mock tr.odd td{ background:#ffffff; }
+  .tbl-mock tr.even td{ background:#eef3fb; }
+  .tbl-mock td.num{ text-align:right; }
+
+  .sidebar{ position:sticky; top:76px; max-height:calc(100vh - 96px); overflow-y:auto; padding-right:.5rem; }
+  .sidebar::-webkit-scrollbar{width:6px;}
+  .sidebar::-webkit-scrollbar-thumb{background:#c7d6d2;border-radius:6px;}
+  .toc-title{font-size:.72rem; text-transform:uppercase; letter-spacing:1px; color:#5c7a76; font-weight:700; margin:1.1rem 0 .4rem;}
+  .toc-title:first-child{margin-top:0;}
+  .nav-pills .nav-link{ color:var(--ink); font-size:.88rem; padding:.3rem .6rem; border-radius:7px; border-left:2px solid transparent; }
+  .nav-pills .nav-link.method-item{color:#4a615d; font-size:.82rem;}
+  .nav-pills .nav-link:hover{background:#e7f1ef;}
+  .nav-pills .nav-link.active{ background:rgba(31,182,176,.12); color:var(--deep); font-weight:600; border-left:2px solid var(--aqua); }
+
+  section.doc-section{scroll-margin-top:80px; margin-bottom:3rem;}
+  .section-head{ display:flex; align-items:center; gap:.6rem; margin-bottom:1rem; padding-bottom:.6rem; border-bottom:2px solid var(--line); }
+  .section-head .icon-badge{
+    width:36px; height:36px; border-radius:9px; display:flex; align-items:center; justify-content:center;
+    background:var(--deep); color:#bfe3df; font-size:.95rem; flex-shrink:0;
+  }
+  .section-head.ev .icon-badge{background:var(--lure); color:#3a1300;}
+  .section-head.mt .icon-badge{background:var(--aqua); color:#053331;}
+  .section-head h2{margin:0; font-size:1.4rem; font-weight:700; color:var(--deep);}
+  .section-head .count{font-size:.78rem; color:#6d8985; font-weight:500;}
+
+  .card-member{
+    background:#fff; border:1px solid var(--line); border-radius:12px;
+    padding:1.1rem 1.25rem; margin-bottom:.9rem; scroll-margin-top:80px;
+    transition:box-shadow .15s ease, border-color .15s ease;
+  }
+  .card-member:hover{box-shadow:0 4px 18px rgba(11,61,76,.08); border-color:#c3e0dc;}
+  .card-member .sig{ font-family:'JetBrains Mono',monospace; font-size:.92rem; color:var(--deep); font-weight:600; word-break:break-word; }
+  .card-member .sig .fn{color:var(--teal); font-weight:700;}
+  .card-member .sig .paren{color:#93a8a5;}
+  .card-member p.desc{margin:.55rem 0 0; font-size:.9rem; color:#37504d; line-height:1.55;}
+  .pill-type{ font-family:'JetBrains Mono',monospace; font-size:.68rem; padding:.15rem .5rem; border-radius:20px; border:1px solid; margin-left:.15rem; white-space:nowrap; }
+  .pill-text{color:#0f7a8c; border-color:#bfe3df; background:#eafaf8;}
+  .pill-number{color:#946200; border-color:#f0dcac; background:#fff8e8;}
+  .pill-boolean{color:#8a3ba8; border-color:#e6c9f0; background:#faf1fd;}
+  .pill-list{color:#c14e2f; border-color:#f3c6b4; background:#fff2ec;}
+  .pill-color{color:#b3006b; border-color:#f0b8d9; background:#fff0f8;}
+  .pill-component{color:#2a5da0; border-color:#c0d4ee; background:#eef4fd;}
+  .badge-return{ font-size:.68rem; font-weight:600; padding:.2rem .55rem; border-radius:6px; background:var(--deep); color:#dff3f1; margin-left:.4rem; }
+  .badge-wo{ font-size:.65rem; font-weight:600; padding:.15rem .5rem; border-radius:6px; background:#eef2f1; color:#5c7a76; margin-left:.3rem; border:1px solid var(--line); }
+  .color-swatch{ display:inline-block; width:14px; height:14px; border-radius:4px; vertical-align:-2px; border:1px solid rgba(0,0,0,.15); margin-right:.35rem; }
+
+  .intro-card{ background:#fff; border:1px solid var(--line); border-radius:14px; padding:1.5rem; }
+  .intro-card ul{margin-bottom:0;}
+  .intro-card li{margin-bottom:.55rem; font-size:.93rem; line-height:1.6;}
+
+  .note-card{ background:#fff8ec; border:1px solid #f0dcac; border-radius:12px; padding:1.1rem 1.25rem; }
+  .note-card .note-title{ color:#946200; font-weight:700; font-size:.85rem; text-transform:uppercase; letter-spacing:.4px; }
+  .note-card ul{margin-bottom:0; font-size:.9rem; line-height:1.6;}
+
+  footer{ background:var(--deep); color:#a9cfca; font-size:.85rem; }
+  .btn-lure{background:var(--lure); border-color:var(--lure); color:#fff;}
+  .btn-lure:hover{background:#e5652a; border-color:#e5652a; color:#fff;}
+  .back-index{color:#bfe3df; font-size:.85rem; text-decoration:none;}
+  .back-index:hover{color:#fff;}
+
+  /* ---------- Page switcher nav ---------- */
+  .pagenav{ background:#0e4a5c; border-bottom:1px solid rgba(255,255,255,.08); }
+  .pagenav-inner{ display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:.5rem; padding:.55rem 0; }
+  .pagenav-links{ display:flex; flex-wrap:wrap; gap:.4rem; }
+  .pagenav-link{
+    display:inline-flex; align-items:center; gap:.35rem; color:#bfe3df; font-size:.82rem; font-weight:600;
+    padding:.35rem .8rem; border-radius:20px; text-decoration:none; border:1px solid transparent;
+    transition:background .15s ease, color .15s ease, border-color .15s ease;
+  }
+  .pagenav-link:hover{ background:rgba(255,255,255,.1); color:#fff; }
+  .pagenav-link.active{ background:var(--lure); color:#fff; border-color:var(--lure); }
+  .pagenav-github{ background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.18); }
+  .pagenav-github:hover{ background:rgba(255,255,255,.16); color:#fff; }
+
+  /* ---------- Brand assets: logo & digital font ---------- */
+  @font-face{
+    font-family:'Seven Segment';
+    src:url('assets/SevenSegment.ttf') format('truetype');
+    font-weight:normal; font-style:normal; font-display:swap;
+  }
+  .brand-logo{ height:34px; width:auto; display:block; flex-shrink:0; }
+  .font-digital{ font-family:'Seven Segment','JetBrains Mono',monospace; letter-spacing:.5px; }
+
+  #backToTop{
+    position:fixed; bottom:24px; right:24px; z-index:999; display:none;
+    width:44px; height:44px; border-radius:50%; background:var(--teal); color:#fff; border:none;
+    box-shadow:0 6px 16px rgba(11,61,76,.35);
+  }
+</style>
+  <link rel="icon" type="image/png" href="assets/logo.png">
+</head>
+<body data-bs-spy="scroll" data-bs-target="#tocNav" data-bs-offset="100" tabindex="0">
+
+<!-- Topbar -->
+<nav class="navbar topbar sticky-top py-2">
+  <div class="container-fluid px-4">
+    <div class="d-flex align-items-center gap-2">
+      <img src="assets/logo.png" alt="Mancingin Extension Suite logo" class="brand-logo">
+      <div>
+        <div class="brand">TableGalatama</div>
+        <div class="subtitle">Non-visible extension &middot; pendamping MancinginExtension</div>
+      </div>
+    </div>
+    <div class="d-flex align-items-center gap-2">
+      <span class="badge badge-version rounded-pill px-3 py-2"><i class="fa-solid fa-table-list me-1"></i> Auto Table Renderer</span>
+    </div>
+  </div>
+</nav>
+
+<!-- Page Switcher -->
+<div class="pagenav">
+  <div class="container-fluid px-4 pagenav-inner">
+        <div class="pagenav-links">
+          <a href="https://aos92.github.io/Mancingin-Extension-Mit-App-Invertor/" class="pagenav-link"><i class="fa-solid fa-house me-1"></i>Beranda</a>
+          <a href="https://aos92.github.io/Mancingin-Extension-Mit-App-Invertor/Mancingin.html" class="pagenav-link"><i class="fa-solid fa-fish-fins me-1"></i>Mancingin</a>
+          <a href="https://aos92.github.io/Mancingin-Extension-Mit-App-Invertor/LapakCanvas.html" class="pagenav-link"><i class="fa-solid fa-vector-square me-1"></i>LapakCanvas</a>
+          <a href="https://aos92.github.io/Mancingin-Extension-Mit-App-Invertor/MenuGalatama.html" class="pagenav-link"><i class="fa-solid fa-bowl-food me-1"></i>MenuGalatama</a>
+          <a href="https://aos92.github.io/Mancingin-Extension-Mit-App-Invertor/TableGalatama.html" class="pagenav-link active"><i class="fa-solid fa-table me-1"></i>TableGalatama</a>
+    </div>
+    <a href="https://github.com/aos92/Mancingin-Extension-Mit-App-Invertor" target="_blank" rel="noopener" class="pagenav-link pagenav-github"><i class="fa-brands fa-github me-1"></i>Repo GitHub</a>
+  </div>
+</div>
+
+
+<!-- Hero -->
+<header class="hero py-5">
+  <div class="container position-relative">
+    <div class="row align-items-center g-4">
+      <div class="col-lg-7">
+        <div class="eyebrow mb-2">Dokumentasi Komponen &middot; extension.md</div>
+        <h1>TableGalatama</h1>
+        <p class="lead mt-2">
+          Menerima hasil query (YailList / List-of-Lists) dari <strong>MancinginExtension</strong>
+          (<code>Select</code>, <code>SelectSQL</code>, <code>AmbilKlasemenLiveGlobal</code>,
+          <code>AmbilJurnalBukuKas</code>, dst.) dan langsung menampilkannya sebagai tabel rapi
+          &mdash; header, baris bernomor, warna selang-seling &mdash; di dalam sebuah
+          <code>TableArrangement</code> yang sudah diletakkan di Designer, tanpa blok
+          &ldquo;for each&rdquo; manual.
+        </p>
+        <div class="d-flex gap-2 mt-3 flex-wrap">
+          <a href="#overview" class="btn btn-lure btn-sm px-3"><i class="fa-solid fa-book-open me-1"></i> Mulai Baca</a>
+          <a href="#methods" class="btn btn-outline-light btn-sm px-3">Lihat Semua Method</a>
+        </div>
+        <div class="row g-2 mt-3" style="max-width:420px;">
+          <div class="col-4"><div class="stat-chip text-center"><div class="num font-digital">10</div><div class="lbl">Properties</div></div></div>
+          <div class="col-4"><div class="stat-chip text-center"><div class="num font-digital">3</div><div class="lbl">Events</div></div></div>
+          <div class="col-4"><div class="stat-chip text-center"><div class="num font-digital">16</div><div class="lbl">Methods</div></div></div>
+        </div>
+      </div>
+
+      <!-- mockup illustrating a rendered table: header + numbered striped rows -->
+      <div class="col-lg-5">
+        <div class="diagram-card">
+          <table class="tbl-mock">
+            <thead>
+              <tr>
+                <th>No</th><th>Nama Peserta</th><th>Total Berat</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="odd"><td>1</td><td>Budi Santoso</td><td class="num">8,40 kg</td></tr>
+              <tr class="even"><td>2</td><td>Rahmat Hidayat</td><td class="num">7,95 kg</td></tr>
+              <tr class="odd"><td>3</td><td>Agus Purnomo</td><td class="num">6,60 kg</td></tr>
+              <tr class="even"><td>4</td><td>Deni Kurniawan</td><td class="num">5,10 kg</td></tr>
+            </tbody>
+          </table>
+          <div class="d-flex justify-content-center gap-3 mt-2" style="font-size:.75rem;color:#cfe8e5;">
+            <span><span class="color-swatch" style="background:#1565c0;"></span>Header</span>
+            <span><span class="color-swatch" style="background:#ffffff;"></span>Baris ganjil</span>
+            <span><span class="color-swatch" style="background:#eef3fb;"></span>Baris genap</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="container-fluid px-4 mt-4">
+  <div class="row">
+
+    <!-- Sidebar TOC -->
+    <div class="col-lg-3 d-none d-lg-block">
+      <div class="sidebar">
+        <div class="nav flex-column nav-pills" id="tocNav">
+          <div class="toc-title">Pengantar</div>
+          <a class="nav-link" href="#overview">Ringkasan</a>
+          <a class="nav-link" href="#cara-pakai">Cara Pakai</a>
+          <a class="nav-link" href="#catatan">Catatan Penting</a>
+
+          <div class="toc-title">Properties</div>
+          <a class="nav-link method-item" href="#KlikBarisAktif">KlikBarisAktif</a>
+          <a class="nav-link method-item" href="#PesanDataKosong">PesanDataKosong</a>
+          <a class="nav-link method-item" href="#PrefixRupiah">PrefixRupiah</a>
+          <a class="nav-link method-item" href="#UkuranTeksHeader">UkuranTeksHeader</a>
+          <a class="nav-link method-item" href="#UkuranTeksIsi">UkuranTeksIsi</a>
+          <a class="nav-link method-item" href="#WarnaBarisGanjil">WarnaBarisGanjil</a>
+          <a class="nav-link method-item" href="#WarnaBarisGenap">WarnaBarisGenap</a>
+          <a class="nav-link method-item" href="#WarnaHeader">WarnaHeader</a>
+          <a class="nav-link method-item" href="#WarnaTeks">WarnaTeks</a>
+          <a class="nav-link method-item" href="#WarnaTeksHeader">WarnaTeksHeader</a>
+
+          <div class="toc-title">Events</div>
+          <a class="nav-link method-item" href="#BarisDiklik">BarisDiklik</a>
+          <a class="nav-link method-item" href="#KesalahanData">KesalahanData</a>
+          <a class="nav-link method-item" href="#TabelDitampilkan">TabelDitampilkan</a>
+
+          <div class="toc-title">Methods</div>
+          <a class="nav-link method-item" href="#BersihkanTabel">BersihkanTabel</a>
+          <a class="nav-link method-item" href="#TampilkanOtomatis">TampilkanOtomatis</a>
+          <a class="nav-link method-item" href="#TampilkanKlasemen">TampilkanKlasemen</a>
+          <a class="nav-link method-item" href="#TampilkanLogTimbangan">TampilkanLogTimbangan</a>
+          <a class="nav-link method-item" href="#TampilkanRegistrasi">TampilkanRegistrasi</a>
+          <a class="nav-link method-item" href="#TampilkanWilayahKiri">TampilkanWilayahKiri</a>
+          <a class="nav-link method-item" href="#TampilkanWilayahKanan">TampilkanWilayahKanan</a>
+          <a class="nav-link method-item" href="#TampilkanTaruhanC">TampilkanTaruhanC</a>
+          <a class="nav-link method-item" href="#TampilkanTaruhanSS">TampilkanTaruhanSS</a>
+          <a class="nav-link method-item" href="#TampilkanHistoriBabak">TampilkanHistoriBabak</a>
+          <a class="nav-link method-item" href="#TampilkanHistoriLomba">TampilkanHistoriLomba</a>
+          <a class="nav-link method-item" href="#TampilkanHistoriPendaftaran">TampilkanHistoriPendaftaran</a>
+          <a class="nav-link method-item" href="#TampilkanHistoriPenjualan">TampilkanHistoriPenjualan</a>
+          <a class="nav-link method-item" href="#TampilkanHistoriOperasional">TampilkanHistoriOperasional</a>
+          <a class="nav-link method-item" href="#TampilkanHistoriHadiah">TampilkanHistoriHadiah</a>
+          <a class="nav-link method-item" href="#TampilkanHistoriKas">TampilkanHistoriKas</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main content -->
+    <div class="col-lg-9">
+
+      <!-- Overview -->
+      <section id="overview" class="doc-section">
+        <div class="section-head">
+          <div class="icon-badge"><i class="fa-solid fa-circle-info"></i></div>
+          <div>
+            <h2>Ringkasan</h2>
+            <div class="count">Apa yang dilakukan extension ini</div>
+          </div>
+        </div>
+        <div class="intro-card">
+          <ul>
+            <li><strong>Jembatan query &rarr; tabel visual.</strong> TableGalatama menerima YailList (List-of-Lists) hasil query dari <code>MancinginExtension</code> dan menggambarnya langsung sebagai tabel di dalam <code>TableArrangement</code> yang sudah diletakkan di Designer.</li>
+            <li><strong>Tanpa blok &ldquo;for each&rdquo; manual.</strong> Cukup panggil salah satu fungsi <code>Tampilkan...()</code>, oper <code>TableArrangement</code> tujuan dan hasil query &mdash; sisanya (header, nomor urut, format, warna) dikerjakan otomatis.</li>
+            <li><strong>Format otomatis per jenis tabel.</strong> Setiap fungsi <code>Tampilkan...()</code> sudah tahu kolom mana yang berupa Rupiah, kg, atau tanggal, dan memformatnya sesuai jenis tabelnya masing-masing.</li>
+            <li><strong>Fungsi universal.</strong> Untuk hasil query di luar 15 bentuk baku, gunakan <code>TampilkanOtomatis()</code> &mdash; cukup berikan judul kolom secara manual, tipe data (angka/teks) ditebak otomatis dari baris pertama.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Cara pakai -->
+      <section id="cara-pakai" class="doc-section">
+        <div class="section-head">
+          <div class="icon-badge"><i class="fa-solid fa-list-ol"></i></div>
+          <div>
+            <h2>Cara Pakai</h2>
+            <div class="count">Alur umum di App Inventor</div>
+          </div>
+        </div>
+        <div class="intro-card">
+          <ul>
+            <li>Panggil <code>MancinginExtension1.SelectSQL("SELECT ... ", buatDaftarKosong)</code> (atau <code>SelectSQLAsync</code> + event <code>AfterSelect</code>) untuk mendapatkan YailList.</li>
+            <li>Panggil salah satu fungsi <code>Tampilkan...()</code> di bawah, oper <code>TableArrangement</code> tujuan dan YailList hasil query tadi.</li>
+            <li>TableGalatama otomatis: menghitung jumlah kolom &amp; baris, menambah nomor urut, memformat Rupiah/kg/tanggal sesuai jenis tabelnya, memberi warna selang-seling, dan menampilkan pesan bila data kosong.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Important notes -->
+      <section id="catatan" class="doc-section">
+        <div class="note-card">
+          <div class="note-title mb-2"><i class="fa-solid fa-triangle-exclamation me-1"></i> Catatan Penting</div>
+          <ul>
+            <li>Setiap fungsi <code>Tampilkan...()</code> sudah mendokumentasikan query SQL yang disarankan &mdash; lihat bagian <code>desc</code> pada masing-masing method di bawah, lalu sesuaikan dengan skema database milikmu bila perlu.</li>
+            <li>Kolom &amp; urutan data pada YailList yang dikirim harus sesuai urutan kolom yang diharapkan tiap fungsi (lihat daftar kolom pada deskripsi method). Jumlah kolom yang tidak cocok akan memicu event <code>KesalahanData</code>.</li>
+            <li>Gunakan <code>TampilkanKlasemen</code> bersama <code>AmbilKlasemenLiveGlobal</code> milik <code>MancinginExtension</code> &mdash; cukup buang 2 kolom pertamanya di blocks sebelum dioper ke sini.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Properties -->
+      <section id="properties" class="doc-section">
+        <div class="section-head">
+          <div class="icon-badge"><i class="fa-solid fa-sliders"></i></div>
+          <div>
+            <h2>Properties</h2>
+            <div class="count">10 properti</div>
+          </div>
+        </div>
+
+        <div class="card-member" id="KlikBarisAktif">
+          <div class="sig"><span class="fn">KlikBarisAktif</span> <span class="pill-type pill-boolean">boolean</span></div>
+          <p class="desc">Jika true, menyentuh satu baris data akan memicu event <code>BarisDiklik</code>. Default: <code>false</code>.</p>
+        </div>
+
+        <div class="card-member" id="PesanDataKosong">
+          <div class="sig"><span class="fn">PesanDataKosong</span> <span class="pill-type pill-text">text</span></div>
+          <p class="desc">Pesan yang ditampilkan saat hasil query kosong (0 baris). Default: <code>"Tidak ada data"</code>.</p>
+        </div>
+
+        <div class="card-member" id="PrefixRupiah">
+          <div class="sig"><span class="fn">PrefixRupiah</span> <span class="pill-type pill-text">text</span></div>
+          <p class="desc">Awalan mata uang untuk kolom bertipe Rupiah. Default: <code>"Rp"</code>.</p>
+        </div>
+
+        <div class="card-member" id="UkuranTeksHeader">
+          <div class="sig"><span class="fn">UkuranTeksHeader</span> <span class="pill-type pill-number">number</span></div>
+          <p class="desc">Ukuran teks header, dalam sp. Default: <code>14</code>.</p>
+        </div>
+
+        <div class="card-member" id="UkuranTeksIsi">
+          <div class="sig"><span class="fn">UkuranTeksIsi</span> <span class="pill-type pill-number">number</span></div>
+          <p class="desc">Ukuran teks isi tabel, dalam sp. Default: <code>13</code>.</p>
+        </div>
+
+        <div class="card-member" id="WarnaBarisGanjil">
+          <div class="sig"><span class="fn">WarnaBarisGanjil</span> <span class="pill-type pill-color">number (color)</span></div>
+          <p class="desc"><span class="color-swatch" style="background:#ffffff;border-color:#cfd8dc;"></span>Warna latar belakang baris data bernomor ganjil (1,3,5,...). Default: putih.</p>
+        </div>
+
+        <div class="card-member" id="WarnaBarisGenap">
+          <div class="sig"><span class="fn">WarnaBarisGenap</span> <span class="pill-type pill-color">number (color)</span></div>
+          <p class="desc"><span class="color-swatch" style="background:#eef3fb;"></span>Warna latar belakang baris data bernomor genap (2,4,6,...). Default: abu-biru muda.</p>
+        </div>
+
+        <div class="card-member" id="WarnaHeader">
+          <div class="sig"><span class="fn">WarnaHeader</span> <span class="pill-type pill-color">number (color)</span></div>
+          <p class="desc"><span class="color-swatch" style="background:#1565c0;"></span>Warna latar belakang baris header (ARGB). Default: biru.</p>
+        </div>
+
+        <div class="card-member" id="WarnaTeks">
+          <div class="sig"><span class="fn">WarnaTeks</span> <span class="pill-type pill-color">number (color)</span></div>
+          <p class="desc"><span class="color-swatch" style="background:#212121;"></span>Warna teks isi tabel (ARGB). Default: hitam keabu-abuan.</p>
+        </div>
+
+        <div class="card-member" id="WarnaTeksHeader">
+          <div class="sig"><span class="fn">WarnaTeksHeader</span> <span class="pill-type pill-color">number (color)</span></div>
+          <p class="desc"><span class="color-swatch" style="background:#ffffff;border-color:#cfd8dc;"></span>Warna teks baris header (ARGB). Default: putih.</p>
+        </div>
+      </section>
+
+      <!-- Events -->
+      <section id="events" class="doc-section">
+        <div class="section-head ev">
+          <div class="icon-badge"><i class="fa-solid fa-bolt"></i></div>
+          <div>
+            <h2>Events</h2>
+            <div class="count">3 event</div>
+          </div>
+        </div>
+
+        <div class="card-member" id="BarisDiklik">
+          <div class="sig"><span class="fn">BarisDiklik</span><span class="paren">(</span>namaTabel <span class="pill-type pill-text">text</span>, nomorBaris <span class="pill-type pill-number">number</span>, dataBaris <span class="pill-type pill-list">list</span><span class="paren">)</span></div>
+          <p class="desc">Dipicu saat satu baris data disentuh (hanya jika <code>KlikBarisAktif = true</code>). <code>nomorBaris</code> mulai dari 1, <code>dataBaris</code> = seluruh nilai asli baris tersebut (sebelum diformat).</p>
+        </div>
+
+        <div class="card-member" id="KesalahanData">
+          <div class="sig"><span class="fn">KesalahanData</span><span class="paren">(</span>namaTabel <span class="pill-type pill-text">text</span>, pesan <span class="pill-type pill-text">text</span><span class="paren">)</span></div>
+          <p class="desc">Dipicu bila data yang diterima tidak sesuai (mis. jumlah kolom tidak cocok) atau terjadi kesalahan lain saat menggambar tabel.</p>
+        </div>
+
+        <div class="card-member" id="TabelDitampilkan">
+          <div class="sig"><span class="fn">TabelDitampilkan</span><span class="paren">(</span>namaTabel <span class="pill-type pill-text">text</span>, jumlahBaris <span class="pill-type pill-number">number</span><span class="paren">)</span></div>
+          <p class="desc">Dipicu setelah sebuah tabel selesai digambar. <code>namaTabel</code> = nama fungsi Tampilkan yang dipanggil (mis. <code>"Klasemen"</code>), <code>jumlahBaris</code> = banyaknya baris data yang ditampilkan.</p>
+        </div>
+      </section>
+
+      <!-- Methods -->
+      <section id="methods" class="doc-section">
+        <div class="section-head mt">
+          <div class="icon-badge"><i class="fa-solid fa-terminal"></i></div>
+          <div>
+            <h2>Methods</h2>
+            <div class="count">16 method</div>
+          </div>
+        </div>
+
+        <h5 class="mb-3" style="color:var(--teal);font-size:.85rem;text-transform:uppercase;letter-spacing:.5px;">Umum</h5>
+
+        <div class="card-member" id="BersihkanTabel">
+          <div class="sig"><span class="fn">BersihkanTabel</span><span class="paren">(</span>arrangement <span class="pill-type pill-component">component</span><span class="paren">)</span></div>
+          <p class="desc">Mengosongkan <code>TableArrangement</code> (dikembalikan menjadi 1 baris x 1 kolom kosong).</p>
+        </div>
+
+        <div class="card-member" id="TampilkanOtomatis">
+          <div class="sig"><span class="fn">TampilkanOtomatis</span><span class="paren">(</span>arrangement <span class="pill-type pill-component">component</span>, judulKolom <span class="pill-type pill-list">list</span>, rows <span class="pill-type pill-list">list</span><span class="paren">)</span></div>
+          <p class="desc">Menampilkan hasil query <strong>apapun</strong> secara otomatis: <code>judulKolom</code> = daftar nama kolom (mis. buat daftar dengan blok &ldquo;buat daftar&rdquo; berisi teks), <code>rows</code> = hasil YailList dari <code>MancinginExtension.SelectSQL</code>/<code>Select</code>. Tipe data (angka rata kanan / teks rata kiri) ditebak otomatis dari nilai baris pertama.</p>
+        </div>
+
+        <h5 class="mt-4 mb-3" style="color:var(--teal);font-size:.85rem;text-transform:uppercase;letter-spacing:.5px;">Klasemen &amp; Timbangan</h5>
+
+        <div class="card-member" id="TampilkanKlasemen">
+          <div class="sig"><span class="fn">TampilkanKlasemen</span><span class="paren">(</span>arrangement <span class="pill-type pill-component">component</span>, rows <span class="pill-type pill-list">list</span><span class="paren">)</span></div>
+          <p class="desc">TabelKlasemen: No Lapak, Nama Peserta, Total Berat (kg), Ikan Terberat (kg), Jumlah Tangkapan.<br>Saran SQL: <code>SELECT no_lapak, nama_peserta, total_berat_kg, ikan_terberat, jumlah_tangkapan FROM v_klasemen WHERE id_lomba=? ORDER BY total_berat_kg DESC</code> (atau pakai <code>AmbilKlasemenLiveGlobal</code> lalu buang 2 kolom pertamanya di blocks).</p>
+        </div>
+
+        <div class="card-member" id="TampilkanLogTimbangan">
+          <div class="sig"><span class="fn">TampilkanLogTimbangan</span><span class="paren">(</span>arrangement <span class="pill-type pill-component">component</span>, rows <span class="pill-type pill-list">list</span><span class="paren">)</span></div>
+          <p class="desc">TabelLogTimbangan: No Lapak, Nama Peserta, Sesi, Berat (kg), Waktu.<br>Saran SQL (lewat <code>MancinginExtension.SelectSQL</code>): <code>SELECT p.no_lapak, p.nama_peserta, s.nama_sesi, t.berat_kg, t.timestamp FROM timbangan t JOIN peserta p ON p.id=t.id_peserta JOIN sesi s ON s.id=t.id_sesi WHERE p.id_lomba=? ORDER BY t.timestamp DESC</code></p>
+        </div>
+
+        <h5 class="mt-4 mb-3" style="color:var(--teal);font-size:.85rem;text-transform:uppercase;letter-spacing:.5px;">Registrasi &amp; Wilayah</h5>
+
+        <div class="card-member" id="TampilkanRegistrasi">
+          <div class="sig"><span class="fn">TampilkanRegistrasi</span><span class="paren">(</span>arrangement <span class="pill-type pill-component">component</span>, rows <span class="pill-type pill-list">list</span><span class="paren">)</span></div>
+          <p class="desc">TabelRegistrasi: No Lapak, Nama Peserta, No HP, Join C, Join SS.<br>Saran SQL: <code>SELECT no_lapak, nama_peserta, no_hp, CASE WHEN join_c=1 THEN 'Ya' ELSE 'Tidak' END, CASE WHEN join_ss=1 THEN 'Ya' ELSE 'Tidak' END FROM peserta WHERE id_lomba=? ORDER BY no_lapak</code></p>
+        </div>
+
+        <div class="card-member" id="TampilkanWilayahKiri">
+          <div class="sig"><span class="fn">TampilkanWilayahKiri</span><span class="paren">(</span>arrangement <span class="pill-type pill-component">component</span>, rows <span class="pill-type pill-list">list</span><span class="paren">)</span></div>
+          <p class="desc">TabelWilayahKiri: No Lapak, Nama Peserta, No HP, Ikut C, Ikut SS (lapak ganjil).<br>Saran SQL: <code>SELECT no_lapak, nama_peserta, no_hp, CASE WHEN join_c=1 THEN 'Ya' ELSE 'Tidak' END, CASE WHEN join_ss=1 THEN 'Ya' ELSE 'Tidak' END FROM peserta WHERE id_lomba=? AND no_lapak % 2 = 1 ORDER BY no_lapak</code></p>
+        </div>
+
+        <div class="card-member" id="TampilkanWilayahKanan">
+          <div class="sig"><span class="fn">TampilkanWilayahKanan</span><span class="paren">(</span>arrangement <span class="pill-type pill-component">component</span>, rows <span class="pill-type pill-list">list</span><span class="paren">)</span></div>
+          <p class="desc">TabelWilayahKanan: No Lapak, Nama Peserta, No HP, Ikut C, Ikut SS (lapak genap).<br>Saran SQL sama seperti WilayahKiri, ganti kondisi menjadi: <code>no_lapak % 2 = 0</code></p>
+        </div>
+
+        <h5 class="mt-4 mb-3" style="color:var(--teal);font-size:.85rem;text-transform:uppercase;letter-spacing:.5px;">Taruhan (Sampingan)</h5>
+
+        <div class="card-member" id="TampilkanTaruhanC">
+          <div class="sig"><span class="fn">TampilkanTaruhanC</span><span class="paren">(</span>arrangement <span class="pill-type pill-component">component</span>, rows <span class="pill-type pill-list">list</span><span class="paren">)</span></div>
+          <p class="desc">TabelTaruhanC: Sesi, Lapak A, Peserta A, Lapak B, Peserta B, Keterangan.<br>Saran SQL: <code>SELECT s.nama_sesi, p1.no_lapak, p1.nama_peserta, p2.no_lapak, p2.nama_peserta, sc.keterangan FROM sampingan_c sc JOIN sesi s ON s.id=sc.id_sesi JOIN peserta p1 ON p1.id=sc.id_peserta1 JOIN peserta p2 ON p2.id=sc.id_peserta2 WHERE sc.id_lomba=? ORDER BY sc.id</code></p>
+        </div>
+
+        <div class="card-member" id="TampilkanTaruhanSS">
+          <div class="sig"><span class="fn">TampilkanTaruhanSS</span><span class="paren">(</span>arrangement <span class="pill-type pill-component">component</span>, rows <span class="pill-type pill-list">list</span><span class="paren">)</span></div>
+          <p class="desc">TabelTaruhanSS: Sesi, Kategori, Pemenang, Hadiah (Rp).<br>Saran SQL: <code>SELECT s.nama_sesi, ss.nama_kategori, COALESCE(p.nama_peserta,'-'), ss.hadiah_rp FROM sampingan_ss ss JOIN sesi s ON s.id=ss.id_sesi LEFT JOIN peserta p ON p.id=ss.id_peserta_pemenang WHERE ss.id_lomba=? ORDER BY ss.id</code></p>
+        </div>
+
+        <h5 class="mt-4 mb-3" style="color:var(--teal);font-size:.85rem;text-transform:uppercase;letter-spacing:.5px;">Riwayat / History</h5>
+
+        <div class="card-member" id="TampilkanHistoriBabak">
+          <div class="sig"><span class="fn">TampilkanHistoriBabak</span><span class="paren">(</span>arrangement <span class="pill-type pill-component">component</span>, rows <span class="pill-type pill-list">list</span><span class="paren">)</span></div>
+          <p class="desc">TabelHistoriBabak: Nama Sesi/Babak, Status.<br>Saran SQL: <code>SELECT nama_sesi, status_sesi FROM sesi WHERE id_lomba=? ORDER BY id</code></p>
+        </div>
+
+        <div class="card-member" id="TampilkanHistoriLomba">
+          <div class="sig"><span class="fn">TampilkanHistoriLomba</span><span class="paren">(</span>arrangement <span class="pill-type pill-component">component</span>, rows <span class="pill-type pill-list">list</span><span class="paren">)</span></div>
+          <p class="desc">TabelHistoriLomba: Nama Event, Mulai, Selesai, Status.<br>Saran SQL: <code>SELECT nama_event, tanggal_mulai, tanggal_selesai, status FROM lomba_event ORDER BY id DESC</code></p>
+        </div>
+
+        <div class="card-member" id="TampilkanHistoriPendaftaran">
+          <div class="sig"><span class="fn">TampilkanHistoriPendaftaran</span><span class="paren">(</span>arrangement <span class="pill-type pill-component">component</span>, rows <span class="pill-type pill-list">list</span><span class="paren">)</span></div>
+          <p class="desc">TabelHistoriPendaftaran: Peserta, Biaya (Rp), Keterangan, Waktu.<br>Saran SQL: <code>SELECT p.nama_peserta, tr.jumlah, tr.keterangan, tr.timestamp FROM transaksi tr JOIN peserta p ON p.id=tr.id_peserta WHERE tr.id_lomba=? AND tr.kategori='Pendaftaran' ORDER BY tr.timestamp DESC</code></p>
+        </div>
+
+        <div class="card-member" id="TampilkanHistoriPenjualan">
+          <div class="sig"><span class="fn">TampilkanHistoriPenjualan</span><span class="paren">(</span>arrangement <span class="pill-type pill-component">component</span>, rows <span class="pill-type pill-list">list</span><span class="paren">)</span></div>
+          <p class="desc">TabelHistoriPenjualan: Peserta, Menu, Qty, Total (Rp), Waktu.<br>Saran SQL: <code>SELECT p.nama_peserta, m.nama_menu, tr.qty, tr.jumlah, tr.timestamp FROM transaksi tr JOIN menu_food m ON m.id=tr.id_menu LEFT JOIN peserta p ON p.id=tr.id_peserta WHERE tr.id_lomba=? AND tr.kategori='Kantin' ORDER BY tr.timestamp DESC</code></p>
+        </div>
+
+        <div class="card-member" id="TampilkanHistoriOperasional">
+          <div class="sig"><span class="fn">TampilkanHistoriOperasional</span><span class="paren">(</span>arrangement <span class="pill-type pill-component">component</span>, rows <span class="pill-type pill-list">list</span><span class="paren">)</span></div>
+          <p class="desc">TabelHistoriOperasional: Jenis Operasional, Nominal (Rp), Keterangan, Waktu.<br>Saran SQL: <code>SELECT sub_kategori, jumlah, keterangan, timestamp FROM transaksi WHERE id_lomba=? AND kategori='Operasional' ORDER BY timestamp DESC</code></p>
+        </div>
+
+        <div class="card-member" id="TampilkanHistoriHadiah">
+          <div class="sig"><span class="fn">TampilkanHistoriHadiah</span><span class="paren">(</span>arrangement <span class="pill-type pill-component">component</span>, rows <span class="pill-type pill-list">list</span><span class="paren">)</span></div>
+          <p class="desc">TabelHistoriHadiah: Penerima, Kategori Hadiah, Nominal (Rp), Keterangan, Waktu.<br>Saran SQL: <code>SELECT COALESCE(p.nama_peserta,'-'), tr.sub_kategori, tr.jumlah, tr.keterangan, tr.timestamp FROM transaksi tr LEFT JOIN peserta p ON p.id=tr.id_peserta WHERE tr.id_lomba=? AND tr.kategori='Hadiah' ORDER BY tr.timestamp DESC</code></p>
+        </div>
+
+        <div class="card-member" id="TampilkanHistoriKas">
+          <div class="sig"><span class="fn">TampilkanHistoriKas</span><span class="paren">(</span>arrangement <span class="pill-type pill-component">component</span>, rows <span class="pill-type pill-list">list</span><span class="paren">)</span></div>
+          <p class="desc">TabelHistoriKas: Jenis, Kategori, Jumlah (Rp), Saldo Setelah (Rp), Keterangan, Waktu.<br>Saran SQL: <code>SELECT jenis, kategori, jumlah, saldo_setelah, keterangan, timestamp FROM buku_kas WHERE id_lomba=? ORDER BY timestamp DESC</code> (atau pakai <code>AmbilJurnalBukuKas</code> lalu sesuaikan kolomnya).</p>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</div>
+
+<footer class="py-4 mt-4">
+  <div class="container text-center">
+    <div class="mb-1"><img src="assets/logo.png" alt="Mancingin Extension Suite" style="height:16px;width:auto;vertical-align:-3px;" class="me-1"> TableGalatama &mdash; Extension untuk MIT App Inventor</div>
+    <div class="opacity-75">Dihasilkan dari <code>extension.md</code> &middot; kategori: EXTENSION &middot; pendamping <code>MancinginExtension</code></div>
+  </div>
+</footer>
+
+<button id="backToTop" title="Kembali ke atas"><i class="fa-solid fa-arrow-up"></i></button>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+<script>
+  const backBtn = document.getElementById('backToTop');
+  window.addEventListener('scroll', () => { backBtn.style.display = window.scrollY > 400 ? 'block' : 'none'; });
+  backBtn.addEventListener('click', () => window.scrollTo({top:0, behavior:'smooth'}));
+</script>
+</body>
+</html>
